@@ -1,3 +1,0 @@
-﻿Module ReadCWTAllMod
-
-End Module

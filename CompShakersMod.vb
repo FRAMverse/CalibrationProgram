@@ -281,8 +281,11 @@
                                 'End If
                             Next 'age
                             For Age = 2 To MaxAge
-                                SubLegalRate(Age) = SubLegalRate(4) / Counter
-
+                                If Age < 5 Then
+                                    SubLegalRate(Age) = SubLegalRate(4) / Counter
+                                Else
+                                    SubLegalRate(Age) = SubLegalRate(Age - 1)
+                                End If
                                 SublegalStock(STk, Age) = 0
                                 If 1 - LegProp(STk, Age) <> 0 Then
                                     SublegalStock(STk, Age) = PropSubPop(STk, Age) * SubLegalRate(Age)

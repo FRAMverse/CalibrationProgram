@@ -255,3 +255,10 @@ S:\FP\FishMgmt\Dapp, Derek\Valid2016\Calibration\MainCalibrationProgramDec2016\o
 S:\FP\FishMgmt\Dapp, Derek\Valid2016\Calibration\MainCalibrationProgramDec2016\obj\Debug\CHDAT.StartForm.resources
 S:\FP\FishMgmt\Dapp, Derek\Valid2016\Calibration\MainCalibrationProgramDec2016\obj\Debug\MainCalibration.vbproj.GenerateResource.Cache
 S:\FP\FishMgmt\Dapp, Derek\Valid2016\Calibration\MainCalibrationProgramDec2016\obj\Debug\ResolveAssemblyReference.cache
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\Interop.Microsoft.Office.Core.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\Interop.VBIDE.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\MainCalibration.vbproj.ResolveComReference.cache
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\CHDAT.exe
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\CHDAT.xml
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git\obj\Debug\CHDAT.pdb
