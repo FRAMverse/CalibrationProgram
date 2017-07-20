@@ -1,0 +1,4 @@
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016\Backup2\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016\Backup2\obj\Debug\Interop.Microsoft.Office.Core.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016\Backup2\obj\Debug\Interop.VBIDE.dll
+C:\data\Calibration\Programs\MainCalibrationProgramDec2016\Backup2\obj\Debug\MainCalibration.vbproj.ResolveComReference.cache

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="CHDAT">
+</Property><Property Name="Solution File" Value="C:\data\VB6SBS\CHDAT\CHDAT.sln">
+</Property><Property Name="Date" Value="Monday, July 26, 2010">
+</Property><Property Name="Time" Value="13:32 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="CHDAT.sln" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CHDAT.sln">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CHDAT.vbproj" Description="Project file successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CHDAT.vbproj">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CHDAT.vbproj.user" Description="Project user file successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CHDAT.vbproj.user">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="AssemblyInfo.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\AssemblyInfo.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CheckCNRMod.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CheckCNRMod.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CheckLeg.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CheckLeg.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="ComLegProp.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\ComLegProp.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CompCohortMod.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\CompCohortMod.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Form1.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Form1.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Impute2Mod.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Impute2Mod.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="ImputeRecov.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\ImputeRecov.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="NormlDistribution.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\NormlDistribution.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="ReadParameters.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\ReadParameters.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="ReadRecoveries.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\ReadRecoveries.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="SaveStk.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\SaveStk.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Shaker1.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Shaker1.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Shaker2.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Shaker2.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Var.vb" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Var.vb">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="Form1.resx" Description="File successfully backed up as C:\data\VB6SBS\CHDAT\Backup\Form1.resx">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CHDAT.vbproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="CHDAT" Source="CHDAT.vbproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="CHDAT.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="CHDAT.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CHDAT" Source="CHDAT.vbproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

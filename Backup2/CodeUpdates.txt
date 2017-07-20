@@ -1,0 +1,3 @@
+﻿12/28/2016 AHB CompShakersMod : Originally TargetEncounterRate was set 1 for all stock run with OOBStatus =2, because OOB run overwrote variable (set to 1 for OOB)
+Recoded section to set TargetEncounterRates to values in the Database for all stocks run
+12/30/2016 AHB CompShakersMod: Code the 2% rule that prohibts the use of BPERs for sublegal caclulations when LegaProp <2%
