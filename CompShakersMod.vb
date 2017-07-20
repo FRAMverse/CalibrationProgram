@@ -25,7 +25,8 @@
         Dim NewStockCatchProp(NumStk) As Double
         Dim StkSubLegalPop(NumStk) As Double
         Dim NewTotSublegalPop As Double
-        Dim TwoPctRule As Boolean = True 'true will activate the 2% rule
+        Dim SumSublegalRate(5) As Double
+
 
 
         TermStat = 0
@@ -176,9 +177,7 @@
                         If StockCatchProp(STk, Fish) > 0 Then
                             '############################################# JON VERSION #########################################
                             For Age = 2 To MaxAge
-                                If Fish = 1 And TStep = 1 And STk = 23 Then
-                                    TStep = TStep
-                                End If
+                               
                                 ' compute legal exploitation rates for all ages of stock in fishery, timestep
 
                                 If CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
@@ -188,82 +187,44 @@
                                     LegalRate(Age) = 0
                                 End If
                             Next
+
                             For Age = 2 To MaxAge
                                 'if legal exploitation rate is > 0 for age, set it as sublegal exploitation rate
                                 If STk = 35 And Age = 3 And Fish = 34 And TStep = 2 Then
                                     TStep = 2
                                 End If
 
-
-
-                                If TwoPctRule = True Then 'set to false if no wishing to eliminate BPERs derived from small (<2%) legal pop
-                                    If LegalRate(Age) > 0 And LegProp(STk, Age) > 0.02 Then
-                                        SubLegalRate(Age) = LegalRate(Age)
-                                    Else
-                                        Counter = 0
-                                        'if LegalRate(Age) is 0:
-                                        '   set SubLegalRate(Age) to 0 if LegalProp(Age) is > 0.5
-                                        '   otherwise move to Age+1
-                                        '       if LegalRate(Age+1) > 0 then SubLegalRate(Age) = LegalRate(Age+1)
-                                        '       if LegalRate(Age+1) = 0 then SubLegalRate(Age) = 0 if LegalProp(Age+1) is > 0.5
-                                        '   otherwise move to Age+2, etc...
-                                        For newage = Age To MaxAge
-                                            If LegalRate(newage) > 0 And LegProp(STk, newage) > 0.02 Then
-                                                SubLegalRate(Age) = LegalRate(newage)
-                                                newage = 5
-                                            Else
-                                                SaveAge = Age
-                                                Age = newage
-
-                                                If LegProp(STk, Age) > 0.99 Then
-                                                    SubLegalRate(SaveAge) = 0
-                                                    newage = 5
-                                                End If
-                                                Age = SaveAge
-                                                'If newage <> SaveAge Then
-                                                '    CompLegProp()
-                                                'End If
-                                            End If
-                                        Next
-                                    End If
+                                '*************************************************************************
+                                If LegalRate(Age) > 0 And LegProp(STk, Age) > 0.02 Then
+                                    SubLegalRate(Age) = LegalRate(Age)
                                 Else
-                                    If LegalRate(Age) > 0 Then
-                                        SubLegalRate(Age) = LegalRate(Age)
-                                    Else
-                                        'if LegalRate(Age) is 0:
-                                        '   set SubLegalRate(Age) to 0 if LegalProp(Age) is > 0.5
-                                        '   otherwise move to Age+1
-                                        '       if LegalRate(Age+1) > 0 then SubLegalRate(Age) = LegalRate(Age+1)
-                                        '       if LegalRate(Age+1) = 0 then SubLegalRate(Age) = 0 if LegalProp(Age+1) is > 0.5
-                                        '   otherwise move to Age+2, etc...
-                                        For newage = Age To MaxAge
-                                            If LegalRate(newage) <> 0 Then
-
+                                    Counter = 1
+                                    For newage = Age + 1 To MaxAge - 1 'exclude 5s
+                                        If LegalRate(newage) > 0 And LegProp(STk, newage) > 0.02 Then
+                                            If LegProp(STk, newage - 1) > 0.5 Then
+                                                Counter = Counter + 1
+                                                SubLegalRate(Age) = (LegalRate(newage - 1) + LegalRate(newage)) / Counter
+                                                newage = 5
+                                                If Age = 2 And newage = 4 And LegProp(STk, newage - 2) > 0.5 Then
+                                                    SubLegalRate(Age) = (LegalRate(newage - 2) + LegalRate(newage - 1) + LegalRate(newage)) / 3
+                                                End If
+                                            Else
                                                 SubLegalRate(Age) = LegalRate(newage)
                                                 newage = 5
-                                            Else
-                                                SaveAge = Age
-                                                Age = newage
-
-                                                If LegProp(STk, Age) > 0.99 Then
-                                                    SubLegalRate(SaveAge) = 0
-                                                    newage = 5
-                                                End If
-                                                Age = SaveAge
-                                                'If newage <> SaveAge Then
-                                                '    CompLegProp()
-                                                'End If
                                             End If
-                                        Next
-                                    End If
-                                End If
-                                SublegalStock(STk, Age) = 0
+                                        Else ' don't use age-1 with < 2% legal in average
 
-                                If 1 - LegProp(STk, Age) <> 0 Then
-                                    SublegalStock(STk, Age) = PropSubPop(STk, Age) * SubLegalRate(Age)
-                                    SumSublegalStock = SumSublegalStock + SublegalStock(STk, Age)
+                                        End If
+                                    Next
+                                
                                 End If
-                            Next 'age
+                        SublegalStock(STk, Age) = 0
+
+                        If 1 - LegProp(STk, Age) <> 0 Then
+                            SublegalStock(STk, Age) = PropSubPop(STk, Age) * SubLegalRate(Age)
+                            SumSublegalStock = SumSublegalStock + SublegalStock(STk, Age)
+                        End If
+                    Next 'age
 
                         End If
                         'End If 'stock in fish
