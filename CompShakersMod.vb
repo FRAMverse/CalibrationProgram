@@ -26,6 +26,7 @@
         Dim StkSubLegalPop(NumStk) As Double
         Dim NewTotSublegalPop As Double
         Dim TwoPctRule As Boolean = True 'true will activate the 2% rule
+        Dim MinSizeLimitOrig(NumFish, NumSteps) As Integer
 
 
         TermStat = 0
@@ -107,7 +108,19 @@
                         Else 'ALLSTOCKS RUN
                             FishYear = BaseYear
                             For Age = 2 To MaxAge
-                                CompLegProp()
+
+
+                                If Fish = 8 Or Fish = 11 Or Fish = 15 Then
+                                    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
+                                    MinSize(FishYear, FishNum, TStep) = 570
+                                    CompLegProp()
+                                    LegProp(STk, Age) = LegalProp
+                                    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
+                                Else
+                                    CompLegProp()
+                                End If
+
+
                                 Print(22, STk & "," & Age & "," & Fish & "," & TStep & "," & "," & SubLegalProp & vbCrLf)
 
                                 PropSubPop(STk, Age) = CohortAll(STk, Age, TermStat, TStep) * SubLegalProp
@@ -173,27 +186,35 @@
 
                         'If StkinFishTS(STk) > 0 Then
 
-                        If StockCatchProp(STk, Fish) > 0 Then
+                        If StockCatchProp(STk, Fish) > 0 Or ((Fish = 54 Or Fish = 42) And StockCatchProp(STk, 15) > 0) Then
                             '############################################# JON VERSION #########################################
                             For Age = 2 To MaxAge
-                                If Fish = 1 And TStep = 1 And STk = 23 Then
-                                    TStep = TStep
-                                End If
                                 ' compute legal exploitation rates for all ages of stock in fishery, timestep
 
-                                If CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
+                                'If in area 5 or 6 winter
+                                If (Fish = 54 Or Fish = 42) And TStep = 1 And CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
+                                    LegalRate(Age) = (((TotExpCWTAll(STk, Age, 15, TStep) * ((TimeCatch(Fish, TStep) * RecAdjFactor(Fish)) / (TimeCatch(15, TStep) * RecAdjFactor(15)))) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) + TotExpCWTAll(STk, Age, Fish, TStep) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) / 2
+                                ElseIf CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
                                     LegalRate(Age) = TotExpCWTAll(STk, Age, Fish, TStep) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))
-
                                 Else
                                     LegalRate(Age) = 0
                                 End If
                             Next
+
                             For Age = 2 To MaxAge
                                 'if legal exploitation rate is > 0 for age, set it as sublegal exploitation rate
-                                If STk = 35 And Age = 3 And Fish = 34 And TStep = 2 Then
+                                If STk = 4 And Age = 3 And Fish = 8 And TStep = 2 Then
                                     TStep = 2
                                 End If
 
+                                If Fish = 8 Or Fish = 11 Or Fish = 15 Then
+                                    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
+                                    MinSize(FishYear, FishNum, TStep) = 570
+                                    CompLegProp()
+                                    LegProp(STk, Age) = LegalProp
+                                    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
+
+                                End If
 
 
                                 If TwoPctRule = True Then 'set to false if no wishing to eliminate BPERs derived from small (<2%) legal pop

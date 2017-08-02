@@ -13,7 +13,7 @@
         Dim MatAge As Integer
         ReDim ExRateAll(NumStk, MaxAge, NumFish, NumSteps + 1)
         ReDim EncRateAllShaker(NumStk, MaxAge, NumFish, NumSteps + 1)
-
+        Dim MinSizeLimitOrig(NumFish, NumSteps) As Integer
         'SAVE AEQ RATES
         ' First MatRate must be recalculated for AEQ Calculations
         For OutStep = 1 To NumSteps + 1
@@ -226,6 +226,12 @@
                             If ShakerAll(STk, Age, FishNum, outstep) > 0 Then
                                 If STk = 35 And Age = 3 And Fish = 34 And TStep = 2 Then
                                     TStep = 2
+                                End If
+                                If Fish = 8 Or Fish = 11 Or Fish = 15 Then
+                                    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
+                                    MinSize(FishYear, FishNum, TStep) = 570
+                                    CompLegProp()
+                                    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
                                 End If
 
                                 Encounters = ShakerAll(STk, Age, FishNum, outstep) / ShakMortRate(FishNum, outstep)
