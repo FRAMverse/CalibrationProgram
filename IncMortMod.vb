@@ -20,10 +20,10 @@
             For Fish = 1 To NumFish
                 FishNum = Fish
                 TermStat = 0
-                If TermFlag(Fish, TStep) = TermStat Then
+                If TermFlag(Fish, TStep) = TermStat Or MinSize(BaseYear, Fish, TStep) > 100 Then
                     ReDim PropSubPop(NumStk, MaxAge)
                     CompShakers()
-                    
+
                     If CNRFlag(BaseType, Yr, Fish, TStep) <> 0 Then
 
                         CompCNR()
