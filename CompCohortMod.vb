@@ -99,9 +99,9 @@ Module CompCohortMod
                         For Fish = 1 To NumFish - 1
                             'If CWTAll(STk, Age, Fish, TStep) > 0 Then
                             If TermFlag(Fish, TStep) = PTerm Then
-                                TotMort(PTerm) = TotMort(PTerm) + TotExpCWTAll(STk, Age, Fish, TStep) * (1 + OtherMort(Fish, TStep)) + ShakerAll(STk, Age, Fish, TStep) '+ StkMortRec.CNR
+                                TotMort(PTerm) = TotMort(PTerm) + TotExpCWTAll(STk, Age, Fish, TStep) * (1 + OtherMort(Fish, TStep)) + ShakerAll(STk, Age, Fish, TStep) + CNR(STk, Age, Fish, TStep)
                             Else
-                                TotMort(Term) = TotMort(Term) + TotExpCWTAll(STk, Age, Fish, TStep) * (1 + OtherMort(Fish, TStep)) + ShakerAll(STk, Age, Fish, TStep) '+ StkMortRec.CNR
+                                TotMort(Term) = TotMort(Term) + TotExpCWTAll(STk, Age, Fish, TStep) * (1 + OtherMort(Fish, TStep)) + ShakerAll(STk, Age, Fish, TStep) + CNR(STk, Age, Fish, TStep)
                             End If
                             'End If
                         Next Fish

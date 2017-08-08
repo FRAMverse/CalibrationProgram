@@ -110,15 +110,15 @@
                             For Age = 2 To MaxAge
 
 
-                                If Fish = 8 Or Fish = 11 Or Fish = 15 Then
-                                    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
-                                    MinSize(FishYear, FishNum, TStep) = 570
-                                    CompLegProp()
-                                    LegProp(STk, Age) = LegalProp
-                                    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
-                                Else
-                                    CompLegProp()
-                                End If
+                                'If Fish = 8 Or Fish = 11 Or Fish = 15 Then
+                                '    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
+                                '    MinSize(FishYear, FishNum, TStep) = 570
+                                '    CompLegProp()
+                                '    LegProp(STk, Age) = LegalProp
+                                '    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
+                                'Else
+                                CompLegProp()
+                                'End If
 
 
                                 Print(22, STk & "," & Age & "," & Fish & "," & TStep & "," & "," & SubLegalProp & vbCrLf)
@@ -207,26 +207,22 @@
                                     TStep = 2
                                 End If
 
-                                If Fish = 8 Or Fish = 11 Or Fish = 15 Then
-                                    MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
-                                    MinSize(FishYear, FishNum, TStep) = 570
-                                    CompLegProp()
-                                    LegProp(STk, Age) = LegalProp
-                                    MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
-
-                                End If
+                                
 
 
                                 If TwoPctRule = True Then 'set to false if no wishing to eliminate BPERs derived from small (<2%) legal pop
                                     If LegalRate(Age) > 0 And LegProp(STk, Age) > 0.02 Then
                                         SubLegalRate(Age) = LegalRate(Age)
                                     Else
-                                        'if LegalRate(Age) is 0:
-                                        '   set SubLegalRate(Age) to 0 if LegalProp(Age) is > 0.5
-                                        '   otherwise move to Age+1
-                                        '       if LegalRate(Age+1) > 0 then SubLegalRate(Age) = LegalRate(Age+1)
-                                        '       if LegalRate(Age+1) = 0 then SubLegalRate(Age) = 0 if LegalProp(Age+1) is > 0.5
-                                        '   otherwise move to Age+2, etc...
+
+                                        If Fish = 8 Or Fish = 11 Or Fish = 15 Then
+                                            MinSizeLimitOrig(FishNum, TStep) = MinSize(FishYear, FishNum, TStep)
+                                            MinSize(FishYear, FishNum, TStep) = 570
+                                            CompLegProp()
+                                            LegProp(STk, Age) = LegalProp
+                                            MinSize(FishYear, FishNum, TStep) = MinSizeLimitOrig(FishNum, TStep)
+                                        End If
+
                                         For newage = Age To MaxAge
                                             If LegalRate(newage) <> 0 And LegProp(STk, newage) > 0.02 Then
                                                 SubLegalRate(Age) = LegalRate(newage)
