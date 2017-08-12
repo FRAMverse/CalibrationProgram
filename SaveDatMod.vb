@@ -40,7 +40,7 @@
                                     MatRate(STk, Age, outstep) = 1
                                 End If
                             End If
-                        Else
+                        Else 'Cohort < 0
                             If Age = MaxAge And outstep = NumSteps Then
                                 MatRate(STk, Age, outstep) = 1
                             Else
@@ -49,7 +49,7 @@
                         End If
                     Next Age
                 Next STk
-            Else
+            Else 'Step = 4
                 For STk = MinStk To NumStk
                     If STk = 24 Then
                         STk = 24
@@ -80,16 +80,16 @@
             For Age = MaxAge To 2 Step -1
                 For TStep = (NumSteps + 1) To 1 Step -1
                     If TStep <> NumSteps + 1 Then
-                        If TStep = NumSteps Then
-                            If Age = MaxAge Then
+                        If TStep = NumSteps Then 'time 3
+                            If Age = MaxAge Then 'time 3 age 5
                                 AEQ(STk, Age, TStep) = 1
-                            Else
+                            Else 'time 3 age <5
                                 '***** GSM - FIXED AEQ CALCULATION
-                                AEQ(STk, Age, TStep) = (MatRate(STk, Age, TStep) + (1 - MatRate(STk, Age, TStep)) * SurvRate(Age + 1, 1)) * AEQ(STk, Age, TStep + 1)
+                                AEQ(STk, Age, TStep) = MatRate(STk, Age, TStep) + (1 - MatRate(STk, Age, TStep)) * SurvRate(Age + 1, 1) * AEQ(STk, Age + 1, 1)
                             End If
-                        Else
+                        Else 'time 1 and 2
                             '***** GSM FIXED AEQ CALCULATION
-                            AEQ(STk, Age, TStep) = (MatRate(STk, Age, TStep) + (1 - MatRate(STk, Age, TStep)) * SurvRate(Age, TStep + 1)) * AEQ(STk, Age, TStep + 1)
+                            AEQ(STk, Age, TStep) = MatRate(STk, Age, TStep) + (1 - MatRate(STk, Age, TStep)) * SurvRate(Age, TStep + 1) * AEQ(STk, Age, TStep + 1)
                         End If
                     Else
                         If Age = MaxAge Then
