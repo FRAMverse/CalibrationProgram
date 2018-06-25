@@ -32,6 +32,9 @@
 
 
         For Fish = 1 To NumFish
+            If Fish = 13 Then
+                Fish = 13
+            End If
 
             Print(16, Fish & "," & AnnualCatch(Fish) & "," & TrueCatch(Fish) & vbCrLf)
 
@@ -43,10 +46,10 @@
                 CatchFlag(Fish) = 0
             End If
 
-
             Select Case CatchFlag(Fish) 'located in cal file to the right of base period fishery catches or in BasePeriodCatch table of Calibration Support db
 
                 ' ADJUST MODEL CATCH TO ESTIMATE CATCH
+
 
 
                 Case 1

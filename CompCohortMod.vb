@@ -13,13 +13,13 @@ Module CompCohortMod
         '**********************************************************************
         'SUM TOTAL MORTALITY OF STOCK DURING TIME STEP over ages and fisheries
         'find unique stock, BY, stage combinations
-        'Dim Cohortfile As String
-        'Cohortfile = "C:\data\calibration\07Qbasic\Cohortfile"
-        'FileOpen(15, Cohortfile, OpenMode.Output)
+        
         'Print(15, "Cohort,  Stk, age, pterm, tstep" & vbCrLf)
 
-
-
+        Dim Escapementfile As String
+        Escapementfile = "C:\data\calibration\07Qbasic\Escapementfile.txt"
+        FileOpen(18, Escapementfile, OpenMode.Output)
+        Print(18, "Iter" & "," & "STk" & "," & "Age" & "," & "Fish" & "," & "TStep" & "," & "TotExpCWT" & "," & "OtherMort" & "," & "Shaker" & "," & "CNR" & "," & "TermFlag" & vbCrLf)
 
         If Firstpass = True Then 'OOB run
             ReDim Cohort(MaxAge, NumSteps)
@@ -83,19 +83,24 @@ Module CompCohortMod
                 Next
             Next
         Else 'Allstocks run
+
             ReDim CohortAll(NumStk, MaxAge, Term, NumSteps)
+            
 
             For STk = MinStk To NumStk
-                
+                If STk = 6 Then
+                    STk = 6
+                End If
+
                 For Age = MaxAge To 2 Step -1
                     For TStep = NumSteps To 1 Step -1
-                       
-
+                        
 
                         'SUM TOTAL MORTALITY OF STOCK DURING TIME STEP
 
                         ReDim TotMort(Term)
                         TotMort(Term) = EscExpFact(STk) * CWTAll(STk, Age, 74, TStep)
+                        Print(18, Iter & "," & STk & "," & Age & "," & "74" & "," & TStep & "," & TotMort(Term) & vbCrLf)
                         For Fish = 1 To NumFish - 1
                             'If CWTAll(STk, Age, Fish, TStep) > 0 Then
                             If TermFlag(Fish, TStep) = PTerm Then
@@ -104,6 +109,7 @@ Module CompCohortMod
                                 TotMort(Term) = TotMort(Term) + TotExpCWTAll(STk, Age, Fish, TStep) * (1 + OtherMort(Fish, TStep)) + ShakerAll(STk, Age, Fish, TStep) + CNR(STk, Age, Fish, TStep)
                             End If
                             'End If
+                            Print(18, Iter & "," & STk & "," & Age & "," & Fish & "," & TStep & "," & TotExpCWTAll(STk, Age, Fish, TStep) & "," & OtherMort(Fish, TStep) & "," & ShakerAll(STk, Age, Fish, TStep) & "," & CNR(STk, Age, Fish, TStep) & "," & TermFlag(Fish, TStep) & vbCrLf)
                         Next Fish
 
                         'TERMINAL CohortAll: TOTAL MORTALITY AND ESCAPEMENT OF FISH IN DESIGNATED
@@ -127,11 +133,13 @@ Module CompCohortMod
                         'Print(15, CohortAll(STk, Age, PTerm, TStep) & "," & STk & "," & Age & "," & PTerm & "," & TStep & "," & "new", vbCrLf)
                     Next TStep
                 Next Age
+
+                
+
             Next STk
-
-
-
         End If
-
+        Iter = Iter + 1
+        FileClose(18)
     End Sub
+
 End Module

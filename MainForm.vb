@@ -766,6 +766,10 @@ secondpass:
             FileClose(13)
         Else
             ReDim ShakerAll(NumStk, MaxAge, NumFish, NumSteps)
+            
+
+
+
             MinStk = 1
             MaxStk = NumStk
             AdjustedCatch = False

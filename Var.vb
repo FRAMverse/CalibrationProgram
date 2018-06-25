@@ -118,6 +118,7 @@ Module Var
     Public InpFile As String
     Public Iread As Integer
     Public Ireadstk As Integer
+    Public Iter As Integer = 1
     Public irow As Integer
     Public junk As String
     Public K(,)

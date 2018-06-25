@@ -14,6 +14,16 @@
         ReDim ExRateAll(NumStk, MaxAge, NumFish, NumSteps + 1)
         ReDim EncRateAllShaker(NumStk, MaxAge, NumFish, NumSteps + 1)
         Dim MinSizeLimitOrig(NumFish, NumSteps) As Integer
+        Dim LegalProportion As String
+
+        LegalProportion = "C:\data\calibration\07Qbasic\LegalProp.txt"
+        FileOpen(35, LegalProportion, OpenMode.Output)
+        Print(35, "STk" & "," & "Age" & "," & "Fish" & "," & "TStep" & "," & "LegalProp" & vbCrLf)
+
+
+
+
+
         'SAVE AEQ RATES
         ' First MatRate must be recalculated for AEQ Calculations
         For OutStep = 1 To NumSteps + 1
@@ -218,7 +228,7 @@
                                     End If
                                 End If
 
-
+                                Print(35, STk & "," & Age & "," & Fish & "," & TStep & "," & LegalProp & vbCrLf)
                             End If
 
                             'FOR SHAKERS, EXPLOITATION RATE IS IN TERMS OF ENCOUNTERS
