@@ -62,12 +62,12 @@
                             '- PS Sport legal size rel mort rate set now to 50% of shaker release rate (10 vs 20)
                             If Fish = 36 Or Fish = 42 Or Fish = 45 Or Fish = 53 Or Fish = 54 Or Fish = 56 Or Fish = 57 Or Fish = 64 Or Fish = 67 Then
 
-                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep) / 2
-                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 2, Fish, TStep) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
+                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep) / 2
+                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 2, Fish, TStep) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
                             Else
 
-                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
-                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 2, Fish, TStep) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
+                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
+                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 2, Fish, TStep) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
                             End If
                             CNR(STk, Age, Fish, TStep) = CNRLeg(STk, Age, Fish, TStep) + CNRSub(STk, Age, Fish, TStep)
 
@@ -105,12 +105,12 @@
                             '- PS Sport legal size rel mort rate set now to 50% of shaker release rate (10 vs 20)
                             If Fish = 36 Or Fish = 42 Or Fish = 45 Or Fish = 53 Or Fish = 54 Or Fish = 56 Or Fish = 57 Or Fish = 64 Or Fish = 67 Then
 
-                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * PropLeg * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep) / 2
-                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * (1 - PropLeg) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
+                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * PropLeg * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep) / 2
+                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * (1 - PropLeg) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
                             Else
 
-                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * PropLeg * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
-                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * (1 - PropLeg) * AnnualCatch(Fish) / TrueCatch(Fish) * ShakMortRate(Fish, TStep)
+                                CNRLeg(STk, Age, Fish, TStep) = PropLegCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * PropLeg * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
+                                CNRSub(STk, Age, Fish, TStep) = PropSubCatch(STk, Age, BaseType) * CNRInput(BaseType, 0, 1, Fish, TStep) * (1 - PropLeg) * AnnualCatch(Fish, TStep) / TrueCatch(Fish, TStep) * ShakMortRate(Fish, TStep)
                             End If
                             CNR(STk, Age, Fish, TStep) = CNRLeg(STk, Age, Fish, TStep) + CNRSub(STk, Age, Fish, TStep)
 

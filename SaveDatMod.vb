@@ -145,8 +145,8 @@
         ReDim ModelStkPPN(NumFish)
         For Fish = 1 To NumFish
 
-            If TrueCatch(Fish) > 0 Then
-                ModelStkPPN(Fish) = AnnualCatch(Fish) / TrueCatch(Fish) 'TrueCatch = BasePeriodCatch
+            If TrueCatch(Fish, 1) + TrueCatch(Fish, 2) + TrueCatch(Fish, 3) > 0 Then
+                ModelStkPPN(Fish) = (AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3)) / (TrueCatch(Fish, 1) + TrueCatch(Fish, 2) + TrueCatch(Fish, 3)) 'TrueCatch = BasePeriodCatch
 
             Else
                 ModelStkPPN(Fish) = 1.0
@@ -155,7 +155,7 @@
             'SET PROPORTION TO A SMALL NUMBER FOR FISHERIES WITH CATCH BUT
             ' NONE REPRESENTED IN THE MODEL (REQUIRED FOR REPORT GENERATION)
 
-            If TrueCatch(Fish) > 0 And ModelStkPPN(Fish) < 0.0001 Then
+            If TrueCatch(Fish, 1) + TrueCatch(Fish, 2) + TrueCatch(Fish, 3) > 0 And ModelStkPPN(Fish) < 0.0001 Then
                 ModelStkPPN(Fish) = 0.0001
             End If
         Next Fish
@@ -211,7 +211,7 @@
                         'End If
 
                         For Age = 2 To MaxAge
-                            If Fish = 47 And STk = 9 And outstep = 2 And Age = 3 Then
+                            If Fish = 15 And STk = 10 And outstep = 1 And Age = 3 Then
                                 Age = 3
                             End If
 

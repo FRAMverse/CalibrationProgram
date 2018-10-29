@@ -479,9 +479,9 @@ Public Class mainform
         'READ CATCH DATA
 
 
-        ReDim TrueCatch(NumFish)
-        ReDim CatchFlag(NumFish)
-        ReDim ExternalModelStockProportion(NumFish)
+        ReDim TrueCatch(NumFish, NumSteps)
+        ReDim CatchFlag(NumFish, NumSteps)
+        ReDim ExternalModelStockProportion(NumFish, NumSteps)
         Dim CatchBaseID As Integer
         n = 0
         For irow = 0 To dsSupportData.Tables("BasePeriodCatch").Rows.Count - 1
@@ -489,9 +489,10 @@ Public Class mainform
             If CatchBaseID = BasePeriodID Then
                 n = n + 1
                 Fish = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("FisheryID")
-                TrueCatch(Fish) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("BPCatch")
-                CatchFlag(Fish) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("Flag")
-                ExternalModelStockProportion(Fish) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("ModelStockProportion")
+                TStep = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("TimeStep")
+                TrueCatch(Fish, TStep) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("BPCatch")
+                CatchFlag(Fish, TStep) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("Flag")
+                ExternalModelStockProportion(Fish, TStep) = dsSupportData.Tables("BasePeriodCatch").Rows(irow)("ModelStockProportion")
             End If
         Next
         If n = 0 Then

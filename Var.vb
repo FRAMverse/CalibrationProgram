@@ -13,7 +13,7 @@ Module Var
     Public Age2Cohort() As Double
     Public aline As String
     Public AnnSurvRate() As Double
-    Public AnnualCatch() As Double
+    Public AnnualCatch(,) As Double
     Public Area As Double
     Public BasePeriodID As Integer
     Public BaseID() As Integer
@@ -33,7 +33,7 @@ Module Var
     Public CalibrationDB As New OleDbConnection
     Public Catcha(,,,) As Double
     Public Catchb As Double
-    Public CatchFlag() As Integer
+    Public CatchFlag(,) As Integer
     Public Check As Integer
     Public CheckFish As Integer
     Public CNR(,,,) As Double
@@ -85,7 +85,7 @@ Module Var
     Public ExRate(,,,,,) As Double
     Public ExRateAll(,,,) As Double
     Public ExplScale(,) As Double
-    Public ExternalModelStockProportion() As Single
+    Public ExternalModelStockProportion(,) As Single
     Public FVSdatabasepath As String
     Public FVSdatabasename As String
     Public FirstFish As Integer
@@ -183,7 +183,7 @@ Module Var
     Public Recorda As String
     Public RecordsetSelectionType As Integer
     Public Recoveries As Double
-    Public RecAdjFactor() As Double
+    Public RecAdjFactor(,) As Double
     Public RunID As Integer
     Public ScaleFile As String
     Public SConStr As String
@@ -245,7 +245,7 @@ Module Var
     Public TotalShakerTerm(,) As Double
     Public TotalShakerPTerm(,) As Double
     Public TotalStk() As Double
-    Public TrueCatch() As Double
+    Public TrueCatch(,) As Double
     Public TotalMort() As Double
     Public TotMort() As Double
     Public TotMortTerm(,) As Double

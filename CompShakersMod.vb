@@ -35,7 +35,7 @@
         FishSublegalPop = 0
         If TotCatch(Fish, TStep) > 0 Then
 
-            If Fish = 11 And TStep = 3 Then
+            If Fish = 41 And TStep = 3 Then
                 TStep = 3
             End If
 
@@ -63,10 +63,7 @@
 
             If TotEnc > 0 Then
                 For STk = MinStk To MaxStk
-                    If Fish = 11 And TStep = 3 And STk = 21 Then
-                        TStep = 3
-                    End If
-
+                   
 
                     If StockCatchProp(STk, Fish) > 0 Then ' catch of this stock in this fishery = 1 for OOB
                         TotSubLegalPop = 0
@@ -189,11 +186,17 @@
                         If StockCatchProp(STk, Fish) > 0 Or ((Fish = 54 Or Fish = 42) And StockCatchProp(STk, 15) > 0) Then
                             '############################################# JON VERSION #########################################
                             For Age = 2 To MaxAge
+                                
+
                                 ' compute legal exploitation rates for all ages of stock in fishery, timestep
 
                                 'If in area 5 or 6 winter
+                                'Weight BC JDF recoveries by size of Area 5 or 6 fishery
+                                'compute ER as average of fishery and BC JDF Sport
                                 If (Fish = 54 Or Fish = 42) And TStep = 1 And CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
-                                    LegalRate(Age) = (((TotExpCWTAll(STk, Age, 15, TStep) * ((TimeCatch(Fish, TStep) * RecAdjFactor(Fish)) / (TimeCatch(15, TStep) * RecAdjFactor(15)))) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) + TotExpCWTAll(STk, Age, Fish, TStep) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) / 2
+                                    LegalRate(Age) = (((TotExpCWTAll(STk, Age, 15, TStep) * (TimeCatch(Fish, TStep) / TimeCatch(15, TStep))) / _
+                                (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) + TotExpCWTAll(STk, Age, Fish, TStep) / _
+                                (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))) / 2
                                 ElseIf CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age) <> 0 Then
                                     LegalRate(Age) = TotExpCWTAll(STk, Age, Fish, TStep) / (CohortAll(STk, Age, 0, TStep) * LegProp(STk, Age))
                                 Else

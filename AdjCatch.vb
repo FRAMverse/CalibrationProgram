@@ -11,7 +11,7 @@
         '**********************************************************************
 
         'COMPUTE ADJUSTMENT FACTOR FOR EACH FISHERY
-        ReDim RecAdjFactor(NumFish)
+        ReDim RecAdjFactor(NumFish, NumSteps)
         ReDim FishExpCWTAll(NumStk, MaxAge, NumFish, NumSteps)
 
         Dim counter As Integer = 0
@@ -26,76 +26,77 @@
         Unadjusted = filepath & "\Unadjusted.txt"
         FileOpen(16, Unadjusted, OpenMode.Output)
 
-        Print(16, "Fishery" & "," & "AnnualCatch" & "," & "TrueCatch" & "," & vbCrLf)
+        Print(16, "Fishery" & "TimeStep" & "," & "AnnualCatch" & "," & "TrueCatch" & "," & vbCrLf)
 
 
 
 
         For Fish = 1 To NumFish
-            If Fish = 13 Then
-                Fish = 13
-            End If
+            
+            For TStep = 1 To NumSteps
 
-            Print(16, Fish & "," & AnnualCatch(Fish) & "," & TrueCatch(Fish) & vbCrLf)
+                Print(16, Fish & "," & TStep & "," & AnnualCatch(Fish, TStep) & "," & TrueCatch(Fish, TStep) & vbCrLf)
+                If Fish = 43 And TStep = 2 Then
+                    Fish = 43
+                End If
+                If Firstpass = True Then
+                    CatchFlag(Fish, TStep) = 0
+                End If
 
-            If Firstpass = True Then
-                CatchFlag(Fish) = 0
-            End If
+                If NoExpansions = True Then
+                    CatchFlag(Fish, TStep) = 0
+                End If
 
-            If NoExpansions = True Then
-                CatchFlag(Fish) = 0
-            End If
+                Select Case CatchFlag(Fish, TStep) 'located in cal file to the right of base period fishery catches or in BasePeriodCatch table of Calibration Support db
 
-            Select Case CatchFlag(Fish) 'located in cal file to the right of base period fishery catches or in BasePeriodCatch table of Calibration Support db
-
-                ' ADJUST MODEL CATCH TO ESTIMATE CATCH
-
-
-
-                Case 1
-                    If AnnualCatch(Fish) > 0 Then
-                        RecAdjFactor(Fish) = TrueCatch(Fish) / AnnualCatch(Fish) 'true catch = base period catch 
-                    Else
-                        counter = counter + 1
-                        fishstring = CStr(Fish)
-                        fishstringall = fishstringall & ", " & fishstring
-                        'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
-                    End If
-                    For TStep = 1 To NumSteps
+                    ' ADJUST MODEL CATCH TO ESTIMATED CATCH
+                    Case 1
+                        If AnnualCatch(Fish, TStep) > 0 Then
+                            RecAdjFactor(Fish, TStep) = TrueCatch(Fish, TStep) / AnnualCatch(Fish, TStep) 'true catch = base period catch 
+                        Else
+                            counter = counter + 1
+                            fishstring = CStr(Fish) & " TStep " & CStr(TStep)
+                            fishstringall = fishstringall & ", " & fishstring
+                            'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
+                        End If
+                        ' For TStep = 1 To NumSteps
                         For STk = MinStk To NumStk
                             For Age = 2 To MaxAge
+                                If STk = 9 And Age = 3 And Fish = 52 And TStep = 3 Then
+                                    TStep = 3
+                                End If
                                 If CWTAll(STk, Age, Fish, TStep) > 0 Then
-                                    FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish)
+                                    FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish, TStep)
                                 End If
                             Next Age
                         Next STk
-                    Next TStep
+                        'Next TStep
 
-                    ' ADJUST MODEL CATCH IF GREATER THAN ESTIMATED CATCH
+                        ' ADJUST MODEL CATCH IF GREATER THAN ESTIMATED CATCH
 
-                Case 2
-                    If AnnualCatch(Fish) > 0 Then
-                        RecAdjFactor(Fish) = TrueCatch(Fish) / AnnualCatch(Fish)
-                    Else
-                        counter = counter + 1
-                        fishstring = CStr(Fish)
-                        fishstringall = fishstringall & ", " & fishstring
-                        'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
-                    End If
-                    If RecAdjFactor(Fish) < 1 Then
-                        For TStep = 1 To NumSteps
+                    Case 2
+                        If AnnualCatch(Fish, TStep) > 0 Then
+                            RecAdjFactor(Fish, TStep) = TrueCatch(Fish, TStep) / AnnualCatch(Fish, TStep)
+                        Else
+                            counter = counter + 1
+                            fishstring = CStr(Fish)
+                            fishstringall = fishstringall & ", " & fishstring
+                            'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
+                        End If
+                        If RecAdjFactor(Fish, TStep) < 1 Then
+                            '  For TStep = 1 To NumSteps
                             For STk = MinStk To NumStk
                                 For Age = 2 To MaxAge
                                     If CWTAll(STk, Age, Fish, TStep) > 0 Then
-                                        FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish)
+                                        FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish, TStep)
                                     End If
                                 Next Age
                             Next STk
-                        Next TStep
-                    Else
-                        RecAdjFactor(Fish) = 99
+                            ' Next TStep
+                        Else
+                            RecAdjFactor(Fish, TStep) = 99
 
-                        For TStep = 1 To NumSteps
+                            '  For TStep = 1 To NumSteps
                             For STk = MinStk To NumStk
                                 For Age = 2 To MaxAge
                                     If CWTAll(STk, Age, Fish, TStep) > 0 Then
@@ -103,36 +104,36 @@
                                     End If
                                 Next Age
                             Next STk
-                        Next TStep
-                    End If
+                            ' Next TStep
+                        End If
 
-                    ' ADJUST MODEL CATCH TO ESTIMATE CATCH
+                        ' ADJUST MODEL CATCH TO ESTIMATE CATCH
 
 
-                Case 3
-                    If AnnualCatch(Fish) > 0 Then
-                        RecAdjFactor(Fish) = TrueCatch(Fish) * ExternalModelStockProportion(Fish) / AnnualCatch(Fish) 'true catch = base period catch 
-                    Else
-                        counter = counter + 1
-                        fishstring = CStr(Fish)
-                        fishstringall = fishstringall & ", " & fishstring
-                        'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
-                    End If
-                    For TStep = 1 To NumSteps
+                    Case 3
+                        If AnnualCatch(Fish, TStep) > 0 Then
+                            RecAdjFactor(Fish, TStep) = TrueCatch(Fish, TStep) * ExternalModelStockProportion(Fish, TStep) / AnnualCatch(Fish, TStep) 'true catch = base period catch 
+                        Else
+                            counter = counter + 1
+                            fishstring = CStr(Fish)
+                            fishstringall = fishstringall & ", " & fishstring
+                            'MsgBox("Base period catch exists yet recoveries are zero for fishery " & Fish)
+                        End If
+                        ' For TStep = 1 To NumSteps
                         For STk = MinStk To NumStk
                             For Age = 2 To MaxAge
                                 If CWTAll(STk, Age, Fish, TStep) > 0 Then
-                                    FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish)
+                                    FishExpCWTAll(STk, Age, Fish, TStep) = CWTAll(STk, Age, Fish, TStep) * RecAdjFactor(Fish, TStep)
                                 End If
                             Next Age
                         Next STk
-                    Next TStep
+                        '  Next TStep
 
 
-                    'NO ADJUSTMENT
+                        'NO ADJUSTMENT
 
-                Case Else
-                    For TStep = 1 To NumSteps
+                    Case Else
+                        '   For TStep = 1 To NumSteps
                         For STk = MinStk To NumStk
                             For Age = 2 To MaxAge
                                 If CWTAll(STk, Age, Fish, TStep) > 0 Then
@@ -140,12 +141,12 @@
                                 End If
                             Next Age
                         Next STk
-                    Next TStep
-                    RecAdjFactor(Fish) = 99
-            End Select
+                        '   Next TStep
+                        RecAdjFactor(Fish, TStep) = 99
+                End Select
 
-            RecAdjFactor(Fish) = TrueCatch(Fish) / AnnualCatch(Fish)
-
+                RecAdjFactor(Fish, TStep) = TrueCatch(Fish, TStep) / AnnualCatch(Fish, TStep)
+            Next TStep
         Next Fish
         FileClose(16)
 

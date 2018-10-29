@@ -5,7 +5,7 @@
         ' the catch comprised of each stock.
         '**********************************************************************
 
-        ReDim AnnualCatch(NumFish)
+        ReDim AnnualCatch(NumFish, NumSteps)
         ReDim StockCatch(NumStk, NumFish)
         ReDim StockCatchProp(NumStk, NumFish)
         ReDim TimeCatch(NumFish, NumSteps)
@@ -27,9 +27,11 @@
                     For Fish = 1 To NumFish - 1
                         For STk = MinStk To NumStk
                             For Age = 2 To MaxAge
+
+
                                 TotExpCWTAll(STk, Age, Fish, TStep) = EscExpFact(STk) * FishExpCWTAll(STk, Age, Fish, TStep)
                                 TotCatch(Fish, TStep) = TotCatch(Fish, TStep) + TotExpCWTAll(STk, Age, Fish, TStep)
-                                AnnualCatch(Fish) = AnnualCatch(Fish) + TotExpCWTAll(STk, Age, Fish, TStep)
+                                AnnualCatch(Fish, TStep) = AnnualCatch(Fish, TStep) + TotExpCWTAll(STk, Age, Fish, TStep)
                                 StockCatch(STk, Fish) = StockCatch(STk, Fish) + TotExpCWTAll(STk, Age, Fish, TStep)
                                 StockCatchProp(STk, Fish) = StockCatchProp(STk, Fish) + TotExpCWTAll(STk, Age, Fish, TStep)
                                 TimeCatch(Fish, TStep) = TimeCatch(Fish, TStep) + TotExpCWTAll(STk, Age, Fish, TStep)
@@ -53,7 +55,7 @@
 
                                 If CWTAll(STk, Age, Fish, TStep) > 0 Then
                                     TotCatch(Fish, TStep) = TotCatch(Fish, TStep) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
-                                    AnnualCatch(Fish) = AnnualCatch(Fish) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
+                                    AnnualCatch(Fish, TStep) = AnnualCatch(Fish, TStep) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
                                     StockCatch(STk, Fish) = StockCatch(STk, Fish) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
                                     StockCatchProp(STk, Fish) = StockCatchProp(STk, Fish) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
                                     TimeCatch(Fish, TStep) = TimeCatch(Fish, TStep) + EscExpFact(STk) * CWTAll(STk, Age, Fish, TStep)
@@ -67,9 +69,9 @@
             'COMPUTE PROPORTION OF CATCH COMPRISED OF EACH STOCK
 
             For Fish = 1 To NumFish - 1
-                If AnnualCatch(Fish) > 0 Then
+                If AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3) > 0 Then
                     For STk = MinStk To NumStk
-                        StockCatchProp(STk, Fish) = StockCatch(STk, Fish) / AnnualCatch(Fish)
+                        StockCatchProp(STk, Fish) = StockCatch(STk, Fish) / (AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3))
                     Next STk
                 End If
             Next Fish
@@ -86,7 +88,7 @@
                     TStep = CWTRow.cTStep
                     STk = CWTRow.cStk
                     TotCatch(Fish, TStep) = TotCatch(Fish, TStep) + ExpFact * CWTRow.cCatch
-                    AnnualCatch(Fish) = AnnualCatch(Fish) + ExpFact * CWTRow.cCatch
+                    AnnualCatch(Fish, TStep) = AnnualCatch(Fish, TStep) + ExpFact * CWTRow.cCatch
                     TimeCatch(Fish, TStep) = TimeCatch(Fish, TStep) + ExpFact * CWTRow.cCatch
                     StockCatch(STk, Fish) = StockCatch(STk, Fish) + ExpFact * CWTRow.cCatch
                     StockCatchProp(STk, Fish) = StockCatchProp(STk, Fish) + ExpFact * CWTRow.cCatch
@@ -96,8 +98,8 @@
             Next
 
             For Fish = 1 To NumFish - 1
-                If AnnualCatch(Fish) > 0 Then
-                    StockCatchProp(STk, Fish) = StockCatch(STk, Fish) / AnnualCatch(Fish)
+                If AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3) > 0 Then
+                    StockCatchProp(STk, Fish) = StockCatch(STk, Fish) / (AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3))
 
                 End If
             Next Fish
