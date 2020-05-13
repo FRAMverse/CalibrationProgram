@@ -88,8 +88,8 @@ Module CompCohortMod
             
 
             For STk = MinStk To NumStk
-                If STk = 6 Then
-                    STk = 6
+                If STk = 10 Then
+                    STk = 10
                 End If
 
                 For Age = MaxAge To 2 Step -1

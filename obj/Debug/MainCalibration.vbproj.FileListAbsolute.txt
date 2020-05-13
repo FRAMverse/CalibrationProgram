@@ -301,3 +301,10 @@ C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git - Copy\bin\CHDAT.x
 C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git - Copy\bin\Interop.Microsoft.Office.Interop.Excel.dll
 C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git - Copy\bin\Interop.Microsoft.Office.Core.dll
 C:\data\Calibration\Programs\MainCalibrationProgramDec2016Git - Copy\bin\Interop.VBIDE.dll
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\Interop.Microsoft.Office.Core.dll
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\Interop.VBIDE.dll
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\MainCalibration.vbproj.ResolveComReference.cache
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\CHDAT.exe
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\CHDAT.xml
+C:\data\Calibration\Programs\MainCalibrationProgramGitTimeStepFixDraft - Copy\obj\Debug\CHDAT.pdb
