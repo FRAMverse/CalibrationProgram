@@ -86,7 +86,7 @@ Module ImputeRecov
             Next
         Next
 
-        'add CWTs from source fish/ts to imputed fish/ts 
+        'add CWTs from source fish/ts to imputed fish/ts. Data clean-up for fisheries were CWT was likely reported in wrong timestep 
         'if BaseType = 1, delete source value; if BaseType = 11, divide sum by 1000; if BaseType = 111 add time steps preserve source value
         For Each ImputeItem In ImputeList
             If ImputeItem.cBaseType = 1 Or ImputeItem.cBaseType = 11 Or ImputeItem.cBaseType = 111 Then

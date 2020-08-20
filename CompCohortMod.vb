@@ -17,7 +17,7 @@ Module CompCohortMod
         'Print(15, "Cohort,  Stk, age, pterm, tstep" & vbCrLf)
 
         Dim Escapementfile As String
-        Escapementfile = "C:\data\calibration\07Qbasic\Escapementfile.txt"
+        Escapementfile = filepath & "Escapementfile.txt"
         FileOpen(18, Escapementfile, OpenMode.Output)
         Print(18, "Iter" & "," & "STk" & "," & "Age" & "," & "Fish" & "," & "TStep" & "," & "TotExpCWT" & "," & "OtherMort" & "," & "Shaker" & "," & "CNR" & "," & "TermFlag" & vbCrLf)
 

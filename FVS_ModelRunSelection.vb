@@ -43,7 +43,7 @@ Public Class FVS_ModelRunSelection
         End If
 
 
-        CalibrationDB.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FVSdatabasename & ";"
+        CalibrationDB.ConnectionString = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" & FVSdatabasename & ";"
         CalibrationDB.Open()
         Dim drd1 As OleDb.OleDbDataReader
         Dim cmd1 As New OleDb.OleDbCommand()

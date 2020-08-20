@@ -988,4 +988,8 @@ secondpass:
     Private Sub chkOldBPSurrogateFish_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
+
+    Private Sub lblDBName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblDBName.Click
+
+    End Sub
 End Class
