@@ -144,7 +144,9 @@
         ' SAVE MODEL STOCK PROPORTION 
         ReDim ModelStkPPN(NumFish)
         For Fish = 1 To NumFish
-
+            If Fish = 46 Then
+                Fish = 46
+            End If
             If TrueCatch(Fish, 1) + TrueCatch(Fish, 2) + TrueCatch(Fish, 3) > 0 Then
                 ModelStkPPN(Fish) = (AnnualCatch(Fish, 1) + AnnualCatch(Fish, 2) + AnnualCatch(Fish, 3)) / (TrueCatch(Fish, 1) + TrueCatch(Fish, 2) + TrueCatch(Fish, 3)) 'TrueCatch = BasePeriodCatch
 
