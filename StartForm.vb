@@ -61,8 +61,8 @@ Public Class StartForm
 
 
 
-        TransferBPName = "NewCalibrationBasePeriodTransfer.accdb"
-       
+        'TransferBPName = "NewCalibrationBasePeriodTransfer.accdb"
+        TransferBPName = "NewCalibrationBasePeriodTransfer.mdb"
         Try
             FVSdatabasepath = My.Computer.FileSystem.GetFileInfo(FVSdatabasename).DirectoryName
             TransferBPLongName = FVSdatabasepath & "\" & TransferBPName
@@ -106,7 +106,8 @@ NewName:
         TransferBPLongName = ""
         MdbSaveFileDialog.Filter = "DataBase Files(*.mdb;*.accdb)|*.MDB;*.ACCDB"
         MdbSaveFileDialog.FilterIndex = 1
-        MdbSaveFileDialog.FileName = "NewCalibrationBasePeriodTransfer.accdb"
+        'MdbSaveFileDialog.FileName = "NewCalibrationBasePeriodTransfer.accdb"
+        MdbSaveFileDialog.FileName = "NewCalibrationBasePeriodTransfer.mdb"
         MdbSaveFileDialog.RestoreDirectory = True
         MsgBox("Please enter the name of the new transfer database for saving.")
         If MdbSaveFileDialog.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
@@ -120,14 +121,15 @@ NewName:
 
 
         If TransferBPLongName = "" Then Exit Sub
-        If TransferBPLongName = "NewCalibrationBasePeriodTransfer.accdb" Then
-            MsgBox("The file 'NewCalibrationBasePeriodTransfer.accdb' is Reserved" & vbCrLf & _
+        'If TransferBPLongName = "NewCalibrationBasePeriodTransfer.accdb" Then
+        If TransferBPLongName = "NewCalibrationBasePeriodTransfer.mdb" Then
+            MsgBox("The file 'NewCalibrationBasePeriodTransfer' is Reserved" & vbCrLf & _
                    "Please Choose Different Name for Transfer DataBase" & vbCrLf & _
                    "Prevents Corruption of Database Structure!", MsgBoxStyle.OkOnly)
             GoTo NewName
         End If
 
-        
+
         If Exists(TransferBPLongName) Then Delete(TransferBPLongName)
         Try
             File.Copy(FVSdatabasepath & "\" & TransferBPName, TransferBPLongName, True)
@@ -137,8 +139,8 @@ NewName:
         End Try
 
         '- TransferDB Connection String
-        TransDb.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & TransferBPLongName & ";"
-        
+        'TransDb.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & TransferBPLongName & ";"
+        TransDb.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & TransferBPLongName & ";"
         Me.Cursor = Cursors.WaitCursor
         Call TransferBasePeriodTables()
         Me.Cursor = Cursors.Default

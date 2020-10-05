@@ -25,7 +25,7 @@ Public Class mainform
         '    files are listed.
 
         OpenFileDialog1.Title = "Select a Database File"
-        OpenFileDialog1.Filter = "DataBase Files(*.accdb)|*.accdb"
+        OpenFileDialog1.Filter = "DataBase Files(*.mdb;*.accdb)|*.MDB;*.ACCDB"
         'Set the CheckFileExists property so that a warning 
         '    appears if the user types a filename of a non-existent 
         '    file.  Then show the dialog.
@@ -38,7 +38,8 @@ Public Class mainform
         If iResult <> Windows.Forms.DialogResult.Cancel And _
                     OpenFileDialog1.FileName.Length <> 0 Then
             FVSdatabasename = OpenFileDialog1.FileName
-            SConStr = "Provider=Microsoft.ACE.OLEDB.12.0;"
+            'SConStr = "Provider=Microsoft.ACE.OLEDB.12.0;"
+            SConStr = "Provider=Microsoft.Jet.OLEDB.4.0;"
             'Use the user-selected database file as the
             '    Data Source value. 
             SConStr &= "Data Source=" & _

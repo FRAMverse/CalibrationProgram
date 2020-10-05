@@ -25,6 +25,7 @@ Public Class FVS_ModelRunSelection
             'Open calibration database
             OpenFileDialog3.Title = "Select the Calibration Database File"
             OpenFileDialog3.Filter = "DataBase Files(*.mdb;*.accdb)|*.MDB;*.ACCDB"
+
             'Set the CheckFileExists property so that a warning 
             '    appears if the user types a filename of a non-existent 
             '    file.  Then show the dialog.
@@ -43,7 +44,8 @@ Public Class FVS_ModelRunSelection
         End If
 
 
-        CalibrationDB.ConnectionString = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" & FVSdatabasename & ";"
+        'CalibrationDB.ConnectionString = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" & FVSdatabasename & ";"
+        CalibrationDB.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & FVSdatabasename & ";"
         CalibrationDB.Open()
         Dim drd1 As OleDb.OleDbDataReader
         Dim cmd1 As New OleDb.OleDbCommand()

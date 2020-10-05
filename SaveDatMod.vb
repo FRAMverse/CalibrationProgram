@@ -16,7 +16,7 @@
         Dim MinSizeLimitOrig(NumFish, NumSteps) As Integer
         Dim LegalProportion As String
 
-        LegalProportion = "C:\data\calibration\07Qbasic\LegalProp.txt"
+        LegalProportion = filepath & "LegalProp.txt"
         FileOpen(35, LegalProportion, OpenMode.Output)
         Print(35, "STk" & "," & "Age" & "," & "Fish" & "," & "TStep" & "," & "LegalProp" & vbCrLf)
 
