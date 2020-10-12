@@ -35,6 +35,7 @@
             Else
                 'EscExpFact(STk) = 1
                 EscExpFact(STk) = ObsEscpmnt(STk) / CWTEscpmnt
+                Debug.Print(EscExpFact(STk))
             End If
         Next
 
