@@ -12,8 +12,8 @@
         'need to read ObsEscapement
         ReDim EscExpFact(NumStk)
         For STk = MinStk To NumStk
-            If STk = 35 Then
-                STk = 35
+            If STk = 23 Then
+                STk = 23
             End If
 
             CWTEscpmnt = 0
@@ -23,9 +23,9 @@
                 'Next TStep
                 ' compute Escapement as Esc + FWNet + FWSport (same as ETRS)
                 For TStep = 1 To NumSteps
-                    For Fish = NumFish - 2 To NumFish
-                        CWTEscpmnt = CWTEscpmnt + CWTAll(STk, Age, Fish, TStep)
-                    Next Fish
+
+                    CWTEscpmnt = CWTEscpmnt + CWTAll(STk, Age, NumFish, TStep)
+
                 Next TStep
 
             Next Age
