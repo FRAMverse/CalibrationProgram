@@ -221,6 +221,7 @@ Module Var
     Public TargEncRate(,) As Double
     Public TransDBName As String
     Public TransferDataSet As New System.Data.DataSet()
+    Public TransferToDataSet As New System.Data.DataSet()
     Public TransferBPLongName As String
     Public TempCatch As Double
     Public TempConc As Double
@@ -255,6 +256,7 @@ Module Var
     Public SubLegalProp As Double
     Public TotSubLegalPop As Double
     Public u() As Double
+    Public FVSshortname As String
     Public WeightItem As WeightData
     Public WeightList As New List(Of WeightData)
     Public Yr As Integer

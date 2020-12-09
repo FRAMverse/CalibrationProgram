@@ -1,5 +1,4 @@
 C:\data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.vbproj.ResolveComReference.cache
-C:\data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.vbproj.GenerateResource.Cache
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\bin\x86\Debug\MainCalibration.exe
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\bin\x86\Debug\MainCalibration.pdb
@@ -15,3 +14,4 @@ C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\Main
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.exe
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.xml
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.pdb
+C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\x86\Debug\MainCalibration.vbproj.CoreCompileInputs.cache

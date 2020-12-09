@@ -22,19 +22,20 @@ Partial Class StartForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.RadioButton3 = New System.Windows.Forms.RadioButton
-        Me.RadioButton2 = New System.Windows.Forms.RadioButton
-        Me.RadioButton1 = New System.Windows.Forms.RadioButton
+        Me.components = New System.ComponentModel.Container()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.RunBtn = New System.Windows.Forms.Button
-        Me.ExportBtn = New System.Windows.Forms.Button
-        Me.ExitBtb = New System.Windows.Forms.Button
-        Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog
-        Me.MdbSaveFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.RadioButton4 = New System.Windows.Forms.RadioButton
+        Me.RunBtn = New System.Windows.Forms.Button()
+        Me.ExportBtn = New System.Windows.Forms.Button()
+        Me.ExitBtb = New System.Windows.Forms.Button()
+        Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
+        Me.MdbSaveFileDialog = New System.Windows.Forms.SaveFileDialog()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,7 +47,7 @@ Partial Class StartForm
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox1.Font = New System.Drawing.Font("Stencil", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox1.Location = New System.Drawing.Point(35, 43)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(704, 60)
@@ -62,19 +63,32 @@ Partial Class StartForm
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(108, 145)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Size = New System.Drawing.Size(579, 219)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Please Select a Run Option"
         '
+        'RadioButton4
+        '
+        Me.RadioButton4.AutoSize = True
+        Me.RadioButton4.Location = New System.Drawing.Point(59, 183)
+        Me.RadioButton4.Name = "RadioButton4"
+        Me.RadioButton4.Size = New System.Drawing.Size(367, 29)
+        Me.RadioButton4.TabIndex = 3
+        Me.RadioButton4.TabStop = True
+        Me.RadioButton4.Text = "Cohort Reconstruction w/o expansions"
+        Me.ToolTip1.SetToolTip(Me.RadioButton4, "Performs a single stock cohort reconstruction without escapement expansions or ca" &
+        "tch expansions")
+        Me.RadioButton4.UseVisualStyleBackColor = True
+        '
         'RadioButton3
         '
         Me.RadioButton3.AutoSize = True
         Me.RadioButton3.Location = New System.Drawing.Point(59, 117)
-        Me.RadioButton3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RadioButton3.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton3.Name = "RadioButton3"
         Me.RadioButton3.Size = New System.Drawing.Size(237, 29)
         Me.RadioButton3.TabIndex = 2
@@ -86,7 +100,7 @@ Partial Class StartForm
         '
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Location = New System.Drawing.Point(59, 80)
-        Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(412, 29)
         Me.RadioButton2.TabIndex = 1
@@ -98,7 +112,7 @@ Partial Class StartForm
         '
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Location = New System.Drawing.Point(59, 43)
-        Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(318, 29)
         Me.RadioButton1.TabIndex = 0
@@ -111,7 +125,7 @@ Partial Class StartForm
         Me.RunBtn.BackColor = System.Drawing.Color.Olive
         Me.RunBtn.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RunBtn.Location = New System.Drawing.Point(108, 414)
-        Me.RunBtn.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RunBtn.Margin = New System.Windows.Forms.Padding(4)
         Me.RunBtn.Name = "RunBtn"
         Me.RunBtn.Size = New System.Drawing.Size(112, 49)
         Me.RunBtn.TabIndex = 2
@@ -123,7 +137,7 @@ Partial Class StartForm
         Me.ExportBtn.BackColor = System.Drawing.Color.Goldenrod
         Me.ExportBtn.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ExportBtn.Location = New System.Drawing.Point(575, 414)
-        Me.ExportBtn.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ExportBtn.Margin = New System.Windows.Forms.Padding(4)
         Me.ExportBtn.Name = "ExportBtn"
         Me.ExportBtn.Size = New System.Drawing.Size(112, 49)
         Me.ExportBtn.TabIndex = 3
@@ -135,7 +149,7 @@ Partial Class StartForm
         Me.ExitBtb.BackColor = System.Drawing.Color.Chocolate
         Me.ExitBtb.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ExitBtb.Location = New System.Drawing.Point(341, 414)
-        Me.ExitBtb.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ExitBtb.Margin = New System.Windows.Forms.Padding(4)
         Me.ExitBtb.Name = "ExitBtb"
         Me.ExitBtb.Size = New System.Drawing.Size(112, 49)
         Me.ExitBtb.TabIndex = 4
@@ -146,18 +160,9 @@ Partial Class StartForm
         '
         Me.OpenFileDialog2.FileName = "OpenFileDialog2"
         '
-        'RadioButton4
+        'OpenFileDialog1
         '
-        Me.RadioButton4.AutoSize = True
-        Me.RadioButton4.Location = New System.Drawing.Point(59, 183)
-        Me.RadioButton4.Name = "RadioButton4"
-        Me.RadioButton4.Size = New System.Drawing.Size(367, 29)
-        Me.RadioButton4.TabIndex = 3
-        Me.RadioButton4.TabStop = True
-        Me.RadioButton4.Text = "Cohort Reconstruction w/o expansions"
-        Me.ToolTip1.SetToolTip(Me.RadioButton4, "Performs a single stock cohort reconstruction without escapement expansions or ca" & _
-                "tch expansions")
-        Me.RadioButton4.UseVisualStyleBackColor = True
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'StartForm
         '
@@ -170,7 +175,7 @@ Partial Class StartForm
         Me.Controls.Add(Me.RunBtn)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.TextBox1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "StartForm"
         Me.Text = "StartForm"
         Me.GroupBox1.ResumeLayout(False)
@@ -191,4 +196,5 @@ Partial Class StartForm
     Friend WithEvents OpenFileDialog2 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents MdbSaveFileDialog As System.Windows.Forms.SaveFileDialog
     Friend WithEvents RadioButton4 As System.Windows.Forms.RadioButton
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

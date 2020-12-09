@@ -58,42 +58,28 @@ Public Class StartForm
     Private Sub ExportBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExportBtn.Click
         Dim iresult As String
         Dim dbConnection9 As New OleDbConnection
+        '**************************************************
+        Dim OpenFVSdatabase As New OpenFileDialog()
+        Dim FVSdatabasename1 As String
 
-
-
-        'TransferBPName = "NewCalibrationBasePeriodTransfer.accdb"
-        TransferBPName = "NewCalibrationBasePeriodTransfer.mdb"
-        Try
-            FVSdatabasepath = My.Computer.FileSystem.GetFileInfo(FVSdatabasename).DirectoryName
-            TransferBPLongName = FVSdatabasepath & "\" & TransferBPName
-        Catch ex As Exception
-            MsgBox("Please select the TransferFile named 'NewCalibrationBasePeriodTransfer'.")
-            OpenFileDialog2.Title = "Select the Transfer File"
-            OpenFileDialog2.Filter = "DataBase Files(*.mdb;*.accdb)|*.MDB;*.ACCDB"
-
-            OpenFileDialog2.CheckFileExists = True
-            iresult = OpenFileDialog2.ShowDialog()
-
-
-            'Make sure the user did not click the Cancel button And 
-            '    specified a file name for the file to be created.  
-            If iresult <> Windows.Forms.DialogResult.Cancel And _
-                        OpenFileDialog2.FileName.Length <> 0 Then
-                TransferBPLongName = OpenFileDialog2.FileName
-                'FVSdatabasepath = Path.GetDirectoryName(TransferBPLongName)
-                'TransferBPName = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
-            End If
-        End Try
-
-        ' If Exists(FVSdatabasepath & "\" & TransferBPName) Then
-
-
-        If TransferBPName = "" Then
-            TransferBPName = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
+        'MsgBox("Please select Transfer Database NewCalibrationBasePeriodTransfer or higher.")
+        FVSdatabasename = ""
+        OpenFVSdatabase.Filter = "DataBase Files (*.mdb)|*.mdb|All files (*.*)|*.*"
+        OpenFVSdatabase.FilterIndex = 1
+        OpenFVSdatabase.RestoreDirectory = True
+        If OpenFVSdatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Try
+                FVSdatabasename1 = OpenFVSdatabase.FileName
+                TransferBPName = My.Computer.FileSystem.GetFileInfo(FVSdatabasename1).Name
+                FVSdatabasepath = My.Computer.FileSystem.GetFileInfo(FVSdatabasename1).DirectoryName
+            Catch Ex As Exception
+                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+            End Try
         End If
-        If FVSdatabasepath = "" Then
-            FVSdatabasepath = My.Computer.FileSystem.GetFileInfo(OpenFileDialog2.FileName).DirectoryName
-        End If
+
+        If FVSdatabasename1 = "" Then Exit Sub
+
+
 
         Me.Visible = False
         FVS_ModelRunSelection.ShowDialog()
@@ -151,11 +137,12 @@ NewName:
 
         Me.Cursor = Cursors.Default
     End Sub
+    '*************************************************************************************************************************
     Private Sub TransferBasePeriodTables()
         Dim CmdStr As String
         Dim RecNum, NumRecs As Integer
 
-       
+
 
         'Transfer BaseID Record
         'Retrieve info from SummaryInfo table
@@ -200,20 +187,20 @@ NewName:
         BID.Transaction = BIDTrans
         RecNum = 0
         'BID.CommandText = "INSERT INTO BaseID (BasePeriodID,BasePeriodName,SpeciesName,NumStocks,NumFisheries,NumTimeSteps,NumAges,MinAge,MaxAge,DateCreated,BaseComments,StockVersion,FisheryVersion,TimeStepVersion) " & _
-        BID.CommandText = "INSERT INTO BaseID (BasePeriodID,BasePeriodName,SpeciesName,NumStocks,NumFisheries,NumTimeSteps,NumAges,MinAge,MaxAge,DateCreated,BaseComments,StockVersion,FisheryVersion,TimeStepVersion) " & _
-        "VALUES(" & SelectedBasePeriodID & "," & _
-        Chr(34) & "New Chinook Calibration BasePeriod" & Chr(34) & "," & _
-        Chr(34) & "CHINOOK" & Chr(34) & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(1) * 2 & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(2) - 1 & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(3) + 1 & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) - 1 & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) - 3 & "," & _
-        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) & "," & _
-        Chr(35) & TransferDataSet.Tables("AEQ").Rows(0)(5) & Chr(35) & "," & _
-        Chr(34) & " " & Chr(34) & "," & _
-        Chr(34) & "1" & Chr(34) & "," & _
-        Chr(34) & "1" & Chr(34) & "," & _
+        BID.CommandText = "INSERT INTO BaseID (BasePeriodID,BasePeriodName,SpeciesName,NumStocks,NumFisheries,NumTimeSteps,NumAges,MinAge,MaxAge,DateCreated,BaseComments,StockVersion,FisheryVersion,TimeStepVersion) " &
+        "VALUES(" & SelectedBasePeriodID & "," &
+        Chr(34) & "New Chinook Calibration BasePeriod" & Chr(34) & "," &
+        Chr(34) & "CHINOOK" & Chr(34) & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(1) * 2 & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(2) - 1 & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(3) + 1 & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) - 1 & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) - 3 & "," &
+        TransferDataSet.Tables("SummaryInfo").Rows(0)(4) & "," &
+        Chr(35) & TransferDataSet.Tables("AEQ").Rows(0)(5) & Chr(35) & "," &
+        Chr(34) & " " & Chr(34) & "," &
+        Chr(34) & "1" & Chr(34) & "," &
+        Chr(34) & "1" & Chr(34) & "," &
         Chr(34) & "1" & Chr(34) & ")"
         BID.ExecuteNonQuery()
         BIDTrans.Commit()
@@ -245,19 +232,19 @@ NewName:
 
         ' next two paragraphs result in the base cohort being doubled when marked and unmarked stock scalar = 1
         For RecNum = 0 To NumBaseCohort - 1
-            BaseCohort.CommandText = "INSERT INTO BaseCohort (BasePeriodID,StockID,Age,BaseCohortSize) " & _
-               "VALUES(" & TransferDataSet.Tables("BaseCohort").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(1) * 2 & "," & _
-                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(2) & "," & _
+            BaseCohort.CommandText = "INSERT INTO BaseCohort (BasePeriodID,StockID,Age,BaseCohortSize) " &
+               "VALUES(" & TransferDataSet.Tables("BaseCohort").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(1) * 2 & "," &
+                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(2) & "," &
                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(3) & ")"
             BaseCohort.ExecuteNonQuery()
         Next
 
         For RecNum = 0 To NumBaseCohort - 1
-            BaseCohort.CommandText = "INSERT INTO BaseCohort (BasePeriodID,StockID,Age,BaseCohortSize) " & _
-               "VALUES(" & TransferDataSet.Tables("BaseCohort").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(1) * 2 - 1 & "," & _
-                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(2) & "," & _
+            BaseCohort.CommandText = "INSERT INTO BaseCohort (BasePeriodID,StockID,Age,BaseCohortSize) " &
+               "VALUES(" & TransferDataSet.Tables("BaseCohort").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(1) * 2 - 1 & "," &
+                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(2) & "," &
                TransferDataSet.Tables("BaseCohort").Rows(RecNum)(3) & ")"
             BaseCohort.ExecuteNonQuery()
         Next
@@ -275,22 +262,22 @@ NewName:
         NumRecs = TransferDataSet.Tables("AEQ").Rows.Count
 
         For RecNum = 0 To NumAEQ - 1
-            AEQ.CommandText = "INSERT INTO AEQ (BasePeriodID,StockID,Age,TimeStep, AEQ) " & _
-               "VALUES(" & TransferDataSet.Tables("AEQ").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(1) * 2 - 1 & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(3) & "," & _
+            AEQ.CommandText = "INSERT INTO AEQ (BasePeriodID,StockID,Age,TimeStep, AEQ) " &
+               "VALUES(" & TransferDataSet.Tables("AEQ").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(1) * 2 - 1 & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(3) & "," &
                TransferDataSet.Tables("AEQ").Rows(RecNum)(4) & ")"
             AEQ.ExecuteNonQuery()
         Next
 
 
         For RecNum = 0 To NumAEQ - 1
-            AEQ.CommandText = "INSERT INTO AEQ (BasePeriodID,StockID,Age,TimeStep, AEQ) " & _
-               "VALUES(" & TransferDataSet.Tables("AEQ").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(1) * 2 & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("AEQ").Rows(RecNum)(3) & "," & _
+            AEQ.CommandText = "INSERT INTO AEQ (BasePeriodID,StockID,Age,TimeStep, AEQ) " &
+               "VALUES(" & TransferDataSet.Tables("AEQ").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(1) * 2 & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("AEQ").Rows(RecNum)(3) & "," &
                TransferDataSet.Tables("AEQ").Rows(RecNum)(4) & ")"
             AEQ.ExecuteNonQuery()
         Next
@@ -321,25 +308,25 @@ NewName:
         BaseExploitationRate.Transaction = BaseExploitationRateTrans
         NumRecs = TransferDataSet.Tables("BaseExploitationRate").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            BaseExploitationRate.CommandText = "INSERT INTO BaseExploitationRate (BasePeriodID,StockID,Age,FisheryID,TimeStep,ExploitationRate,SublegalEncounterRate) " & _
-               "VALUES(" & TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(1) * 2 & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(3) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(4) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(5) & "," & _
+            BaseExploitationRate.CommandText = "INSERT INTO BaseExploitationRate (BasePeriodID,StockID,Age,FisheryID,TimeStep,ExploitationRate,SublegalEncounterRate) " &
+               "VALUES(" & TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(1) * 2 & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(3) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(4) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(5) & "," &
                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(6) & ")"
 
             BaseExploitationRate.ExecuteNonQuery()
         Next
         For RecNum = 0 To NumRecs - 1
-            BaseExploitationRate.CommandText = "INSERT INTO BaseExploitationRate (BasePeriodID,StockID,Age,FisheryID,TimeStep,ExploitationRate,SublegalEncounterRate) " & _
-               "VALUES(" & TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(1) * 2 - 1 & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(3) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(4) & "," & _
-                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(5) & "," & _
+            BaseExploitationRate.CommandText = "INSERT INTO BaseExploitationRate (BasePeriodID,StockID,Age,FisheryID,TimeStep,ExploitationRate,SublegalEncounterRate) " &
+               "VALUES(" & TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(1) * 2 - 1 & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(3) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(4) & "," &
+                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(5) & "," &
                TransferDataSet.Tables("BaseExploitationRate").Rows(RecNum)(6) & ")"
 
             BaseExploitationRate.ExecuteNonQuery()
@@ -383,6 +370,7 @@ NewName:
 
         'ChinookBaseSizeLimit()
         ReDim SizeLimit(NumFish, NumSteps)
+        Dim BPIDPresent As Boolean
         CmdStr = "SELECT * FROM SizeLimits WHERE FishingYear = " & BaseYear & " ORDER BY FisheryID, TimeStep;"
         Dim ChinookBaseSizeLimitcm As New OleDb.OleDbCommand(CmdStr, CalibrationDB)
         Dim ChinookBaseSizeLimitIDDA As New System.Data.OleDb.OleDbDataAdapter
@@ -392,6 +380,11 @@ NewName:
         If TransferDataSet.Tables.Contains("ChinookBaseSizeLimit") Then
             TransferDataSet.Tables("ChinookBaseSizeLimit").Clear()
         End If
+        'If TransferDataSet.Tables("ChinookBaseSizeLimit").Columns.IndexOf("BasePeriodID") = -1 Then
+        '    BPIDPresent = True
+        'Else
+        '    BPIDPresent = False
+        'End If
         ChinookBaseSizeLimitIDDA.Fill(TransferDataSet, "ChinookBaseSizeLimit")
         'Dim NumChinookBaseSizeLimit As Integer
 
@@ -403,19 +396,53 @@ NewName:
 
         Dim ChinookBaseSizeLimitTrans As OleDb.OleDbTransaction
         Dim ChinookBaseSizeLimit As New OleDbCommand
+
         TransDb.Open()
+        CmdStr = "SELECT * FROM ChinookBaseSizeLimit;"
+        Dim ChinookBaseSizeLimitOutcm As New OleDb.OleDbCommand(CmdStr, TransDb)
+        Dim ChinookBaseSizeLimitOutIDDA As New System.Data.OleDb.OleDbDataAdapter
+        ChinookBaseSizeLimitOutIDDA.SelectCommand = ChinookBaseSizeLimitOutcm
+        Dim ChinookBaseSizeLimitOutcb As New OleDb.OleDbCommandBuilder
+        ChinookBaseSizeLimitOutcb = New OleDb.OleDbCommandBuilder(ChinookBaseSizeLimitOutIDDA)
+        ChinookBaseSizeLimitOutIDDA.Fill(TransferToDataSet, "ChinookBaseSizeLimit")
+        ChinookBaseSizeLimitOutIDDA = Nothing
+
+
+        If TransferToDataSet.Tables("ChinookBaseSizeLimit").Columns.IndexOf("BasePeriodID") <> -1 Then
+            BPIDPresent = True
+        Else
+            BPIDPresent = False
+        End If
+
+
+
+
+
         ChinookBaseSizeLimitTrans = TransDb.BeginTransaction
         ChinookBaseSizeLimit.Connection = TransDb
         ChinookBaseSizeLimit.Transaction = ChinookBaseSizeLimitTrans
 
         For Fish = 1 To NumFish
-            ChinookBaseSizeLimit.CommandText = "INSERT INTO ChinookBaseSizeLimit (FisheryID,Time1SizeLimit,Time2SizeLimit,Time3SizeLimit,Time4SizeLimit) " & _
-                    "VALUES(" & Fish & "," & _
-                            SizeLimit(Fish, 1) & "," & _
-                            SizeLimit(Fish, 2) & "," & _
-                            SizeLimit(Fish, 3) & "," & _
+            If BPIDPresent = True Then
+                ChinookBaseSizeLimit.CommandText = "INSERT INTO ChinookBaseSizeLimit (BasePeriodID, FisheryID,Time1SizeLimit,Time2SizeLimit,Time3SizeLimit,Time4SizeLimit) " &
+                    "VALUES(" & SelectedBasePeriodID & "," &
+                            Fish & "," &
+                            SizeLimit(Fish, 1) & "," &
+                            SizeLimit(Fish, 2) & "," &
+                            SizeLimit(Fish, 3) & "," &
                             SizeLimit(Fish, 4) & ")"
-            ChinookBaseSizeLimit.ExecuteNonQuery()
+                ChinookBaseSizeLimit.ExecuteNonQuery()
+            Else
+                ChinookBaseSizeLimit.CommandText = "INSERT INTO ChinookBaseSizeLimit (FisheryID,Time1SizeLimit,Time2SizeLimit,Time3SizeLimit,Time4SizeLimit) " &
+                                    "VALUES(" & Fish & "," &
+                                            SizeLimit(Fish, 1) & "," &
+                                            SizeLimit(Fish, 2) & "," &
+                                            SizeLimit(Fish, 3) & "," &
+                                            SizeLimit(Fish, 4) & ")"
+                ChinookBaseSizeLimit.ExecuteNonQuery()
+
+            End If
+
         Next Fish
 
         ChinookBaseSizeLimitTrans.Commit()
@@ -443,11 +470,11 @@ NewName:
         EncounterRateAdjustment.Transaction = EncounterRateAdjustmentTrans
         NumRecs = TransferDataSet.Tables("EncounterRateAdjustment").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            EncounterRateAdjustment.CommandText = "INSERT INTO EncounterRateAdjustment (BasePeriodID,Age,FisheryID,TimeStep,EncounterRateAdjustment) " & _
-               "VALUES(" & TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(3) & "," & _
-            TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(4) & "," & _
+            EncounterRateAdjustment.CommandText = "INSERT INTO EncounterRateAdjustment (BasePeriodID,Age,FisheryID,TimeStep,EncounterRateAdjustment) " &
+               "VALUES(" & TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(3) & "," &
+            TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(4) & "," &
                TransferDataSet.Tables("EncounterRateAdjustment").Rows(RecNum)(5) & ")"
 
             EncounterRateAdjustment.ExecuteNonQuery()
@@ -479,11 +506,11 @@ NewName:
         Fishery.Transaction = FisheryTrans
         NumRecs = TransferDataSet.Tables("Fishery").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            Fishery.CommandText = "INSERT INTO Fishery (Species,VersionNumber,FisheryID,FisheryName,FisheryTitle) " & _
-               "VALUES(" & Chr(34) & TransferDataSet.Tables("Fishery").Rows(RecNum)(0) & Chr(34) & "," & _
-                TransferDataSet.Tables("Fishery").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("Fishery").Rows(RecNum)(2) & "," & _
-                Chr(34) & TransferDataSet.Tables("Fishery").Rows(RecNum)(3) & Chr(34) & "," & _
+            Fishery.CommandText = "INSERT INTO Fishery (Species,VersionNumber,FisheryID,FisheryName,FisheryTitle) " &
+               "VALUES(" & Chr(34) & TransferDataSet.Tables("Fishery").Rows(RecNum)(0) & Chr(34) & "," &
+                TransferDataSet.Tables("Fishery").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("Fishery").Rows(RecNum)(2) & "," &
+                Chr(34) & TransferDataSet.Tables("Fishery").Rows(RecNum)(3) & Chr(34) & "," &
                Chr(34) & TransferDataSet.Tables("Fishery").Rows(RecNum)(4) & Chr(34) & ")"
 
             Fishery.ExecuteNonQuery()
@@ -513,9 +540,9 @@ NewName:
         FisheryModelStockProportion.Transaction = FisheryModelStockProportionTrans
         NumRecs = TransferDataSet.Tables("FisheryModelStockProportion").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            FisheryModelStockProportion.CommandText = "INSERT INTO FisheryModelStockProportion (BasePeriodID,FisheryID,ModelStockProportion) " & _
-               "VALUES(" & TransferDataSet.Tables("FisheryModelStockProportion").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("FisheryModelStockProportion").Rows(RecNum)(1) & "," & _
+            FisheryModelStockProportion.CommandText = "INSERT INTO FisheryModelStockProportion (BasePeriodID,FisheryID,ModelStockProportion) " &
+               "VALUES(" & TransferDataSet.Tables("FisheryModelStockProportion").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("FisheryModelStockProportion").Rows(RecNum)(1) & "," &
                TransferDataSet.Tables("FisheryModelStockProportion").Rows(RecNum)(2) & ")"
 
             FisheryModelStockProportion.ExecuteNonQuery()
@@ -545,43 +572,43 @@ NewName:
         Growth.Transaction = GrowthTrans
         NumRecs = TransferDataSet.Tables("Growth").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            Growth.CommandText = "INSERT INTO Growth (BasePeriodID,StockID,LImmature,KImmature,TImmature,CV2Immature,CV3Immature,CV4Immature,CV5Immature,LMature,KMature,TMature,CV2Mature,CV3Mature,CV4Mature,CV5Mature) " & _
-               "VALUES(" & TransferDataSet.Tables("Growth").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("Growth").Rows(RecNum)(2) * 2 - 1 & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(3) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(4) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(5) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(6) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(7) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(8) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(9) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(10) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(11) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(12) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(13) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(14) & "," & _
-            TransferDataSet.Tables("Growth").Rows(RecNum)(15) & "," & _
+            Growth.CommandText = "INSERT INTO Growth (BasePeriodID,StockID,LImmature,KImmature,TImmature,CV2Immature,CV3Immature,CV4Immature,CV5Immature,LMature,KMature,TMature,CV2Mature,CV3Mature,CV4Mature,CV5Mature) " &
+               "VALUES(" & TransferDataSet.Tables("Growth").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("Growth").Rows(RecNum)(2) * 2 - 1 & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(3) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(4) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(5) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(6) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(7) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(8) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(9) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(10) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(11) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(12) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(13) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(14) & "," &
+            TransferDataSet.Tables("Growth").Rows(RecNum)(15) & "," &
                TransferDataSet.Tables("Growth").Rows(RecNum)(16) & ")"
 
             Growth.ExecuteNonQuery()
         Next
         For RecNum = 0 To NumRecs - 1
-            Growth.CommandText = "INSERT INTO Growth (BasePeriodID,StockID,LImmature,KImmature,TImmature,CV2Immature,CV3Immature,CV4Immature,CV5Immature,LMature,KMature,TMature,CV2Mature,CV3Mature,CV4Mature,CV5Mature) " & _
-               "VALUES(" & TransferDataSet.Tables("Growth").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("Growth").Rows(RecNum)(2) * 2 & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(3) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(4) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(5) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(6) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(7) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(8) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(9) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(10) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(11) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(12) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(13) & "," & _
-             TransferDataSet.Tables("Growth").Rows(RecNum)(14) & "," & _
-            TransferDataSet.Tables("Growth").Rows(RecNum)(15) & "," & _
+            Growth.CommandText = "INSERT INTO Growth (BasePeriodID,StockID,LImmature,KImmature,TImmature,CV2Immature,CV3Immature,CV4Immature,CV5Immature,LMature,KMature,TMature,CV2Mature,CV3Mature,CV4Mature,CV5Mature) " &
+               "VALUES(" & TransferDataSet.Tables("Growth").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("Growth").Rows(RecNum)(2) * 2 & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(3) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(4) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(5) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(6) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(7) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(8) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(9) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(10) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(11) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(12) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(13) & "," &
+             TransferDataSet.Tables("Growth").Rows(RecNum)(14) & "," &
+            TransferDataSet.Tables("Growth").Rows(RecNum)(15) & "," &
                TransferDataSet.Tables("Growth").Rows(RecNum)(16) & ")"
 
             Growth.ExecuteNonQuery()
@@ -613,10 +640,10 @@ NewName:
         IncidentalRate.Transaction = IncidentalRateTrans
         NumRecs = TransferDataSet.Tables("IncidentalRate").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            IncidentalRate.CommandText = "INSERT INTO IncidentalRate (BasePeriodID,FisheryID,TimeStep,IncidentalRate) " & _
-               "VALUES(" & TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(2) & "," & _
+            IncidentalRate.CommandText = "INSERT INTO IncidentalRate (BasePeriodID,FisheryID,TimeStep,IncidentalRate) " &
+               "VALUES(" & TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(2) & "," &
                 TransferDataSet.Tables("IncidentalRate").Rows(RecNum)(3) & ")"
 
             IncidentalRate.ExecuteNonQuery()
@@ -646,21 +673,21 @@ NewName:
         MaturationRate.Transaction = MaturationRateTrans
         NumRecs = TransferDataSet.Tables("MaturationRate").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            MaturationRate.CommandText = "INSERT INTO MaturationRate (BasePeriodID,StockID,Age,TimeStep,MaturationRate) " & _
-               "VALUES(" & TransferDataSet.Tables("MaturationRate").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(1) * 2 & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(3) & "," & _
+            MaturationRate.CommandText = "INSERT INTO MaturationRate (BasePeriodID,StockID,Age,TimeStep,MaturationRate) " &
+               "VALUES(" & TransferDataSet.Tables("MaturationRate").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(1) * 2 & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(3) & "," &
                 TransferDataSet.Tables("MaturationRate").Rows(RecNum)(4) & ")"
 
             MaturationRate.ExecuteNonQuery()
         Next
         For RecNum = 0 To NumRecs - 1
-            MaturationRate.CommandText = "INSERT INTO MaturationRate (BasePeriodID,StockID,Age,TimeStep,MaturationRate) " & _
-               "VALUES(" & TransferDataSet.Tables("MaturationRate").Rows(RecNum)(0) & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(1) * 2 - 1 & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(3) & "," & _
+            MaturationRate.CommandText = "INSERT INTO MaturationRate (BasePeriodID,StockID,Age,TimeStep,MaturationRate) " &
+               "VALUES(" & TransferDataSet.Tables("MaturationRate").Rows(RecNum)(0) & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(1) * 2 - 1 & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("MaturationRate").Rows(RecNum)(3) & "," &
                 TransferDataSet.Tables("MaturationRate").Rows(RecNum)(4) & ")"
 
             MaturationRate.ExecuteNonQuery()
@@ -690,10 +717,10 @@ NewName:
         NaturalMortality.Transaction = NaturalMortalityTrans
         NumRecs = TransferDataSet.Tables("NaturalMortality").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            NaturalMortality.CommandText = "INSERT INTO NaturalMortality (BasePeriodID,Age,TimeStep,NaturalMortalityRate) " & _
-               "VALUES(" & TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(3) & "," & _
+            NaturalMortality.CommandText = "INSERT INTO NaturalMortality (BasePeriodID,Age,TimeStep,NaturalMortalityRate) " &
+               "VALUES(" & TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(3) & "," &
                 TransferDataSet.Tables("NaturalMortality").Rows(RecNum)(4) & ")"
 
             NaturalMortality.ExecuteNonQuery()
@@ -723,10 +750,10 @@ NewName:
         ShakerMortRate.Transaction = ShakerMortRateTrans
         NumRecs = TransferDataSet.Tables("ShakerMortRate").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            ShakerMortRate.CommandText = "INSERT INTO ShakerMortRate (BasePeriodID,FisheryID,TimeStep,ShakerMortRate) " & _
-               "VALUES(" & TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(3) & "," & _
+            ShakerMortRate.CommandText = "INSERT INTO ShakerMortRate (BasePeriodID,FisheryID,TimeStep,ShakerMortRate) " &
+               "VALUES(" & TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(3) & "," &
                 TransferDataSet.Tables("ShakerMortRate").Rows(RecNum)(4) & ")"
 
             ShakerMortRate.ExecuteNonQuery()
@@ -756,25 +783,25 @@ NewName:
         Stock.Transaction = StockTrans
         NumRecs = TransferDataSet.Tables("Stock").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            Stock.CommandText = "INSERT INTO Stock (Species,StockVersion,StockID,ProductionRegionNumber,ManagementUnitNumber,StockName,StockLongName) " & _
-               "VALUES(" & Chr(34) & TransferDataSet.Tables("Stock").Rows(RecNum)(0) & Chr(34) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(2) * 2 & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(3) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(4) * 2 & "," & _
-                Chr(34) & "M-" & TransferDataSet.Tables("Stock").Rows(RecNum)(5) & Chr(34) & "," & _
+            Stock.CommandText = "INSERT INTO Stock (Species,StockVersion,StockID,ProductionRegionNumber,ManagementUnitNumber,StockName,StockLongName) " &
+               "VALUES(" & Chr(34) & TransferDataSet.Tables("Stock").Rows(RecNum)(0) & Chr(34) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(2) * 2 & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(3) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(4) * 2 & "," &
+                Chr(34) & "M-" & TransferDataSet.Tables("Stock").Rows(RecNum)(5) & Chr(34) & "," &
                Chr(34) & "Marked " & TransferDataSet.Tables("Stock").Rows(RecNum)(6) & Chr(34) & ")"
 
             Stock.ExecuteNonQuery()
         Next
         For RecNum = 0 To NumRecs - 1
-            Stock.CommandText = "INSERT INTO Stock (Species,StockVersion,StockID,ProductionRegionNumber,ManagementUnitNumber,StockName,StockLongName) " & _
-               "VALUES(" & Chr(34) & TransferDataSet.Tables("Stock").Rows(RecNum)(0) & Chr(34) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(2) * 2 - 1 & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(3) & "," & _
-                TransferDataSet.Tables("Stock").Rows(RecNum)(4) * 2 - 1 & "," & _
-                Chr(34) & "U-" & TransferDataSet.Tables("Stock").Rows(RecNum)(5) & Chr(34) & "," & _
+            Stock.CommandText = "INSERT INTO Stock (Species,StockVersion,StockID,ProductionRegionNumber,ManagementUnitNumber,StockName,StockLongName) " &
+               "VALUES(" & Chr(34) & TransferDataSet.Tables("Stock").Rows(RecNum)(0) & Chr(34) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(2) * 2 - 1 & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(3) & "," &
+                TransferDataSet.Tables("Stock").Rows(RecNum)(4) * 2 - 1 & "," &
+                Chr(34) & "U-" & TransferDataSet.Tables("Stock").Rows(RecNum)(5) & Chr(34) & "," &
                Chr(34) & "UnMarked " & TransferDataSet.Tables("Stock").Rows(RecNum)(6) & Chr(34) & ")"
 
             Stock.ExecuteNonQuery()
@@ -804,10 +831,10 @@ NewName:
         TerminalFisheryFlag.Transaction = TerminalFisheryFlagTrans
         NumRecs = TransferDataSet.Tables("TerminalFisheryFlag").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            TerminalFisheryFlag.CommandText = "INSERT INTO TerminalFisheryFlag (BasePeriodID,FisheryID,TimeStep,TerminalFlag) " & _
-               "VALUES(" & TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(2) & "," & _
-                TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(3) & "," & _
+            TerminalFisheryFlag.CommandText = "INSERT INTO TerminalFisheryFlag (BasePeriodID,FisheryID,TimeStep,TerminalFlag) " &
+               "VALUES(" & TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(2) & "," &
+                TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(3) & "," &
                 TransferDataSet.Tables("TerminalFisheryFlag").Rows(RecNum)(4) & ")"
 
             TerminalFisheryFlag.ExecuteNonQuery()
@@ -837,11 +864,11 @@ NewName:
         TimeStep.Transaction = TimeStepTrans
         NumRecs = TransferDataSet.Tables("TimeStep").Rows.Count
         For RecNum = 0 To NumRecs - 1
-            TimeStep.CommandText = "INSERT INTO TimeStep (Species,VersionNumber,TimeStepID,TimeStepName,TimeStepTitle) " & _
-               "VALUES(" & Chr(34) & TransferDataSet.Tables("TimeStep").Rows(RecNum)(0) & Chr(34) & "," & _
-                TransferDataSet.Tables("TimeStep").Rows(RecNum)(1) & "," & _
-                TransferDataSet.Tables("TimeStep").Rows(RecNum)(2) & "," & _
-                Chr(34) & TransferDataSet.Tables("TimeStep").Rows(RecNum)(3) & Chr(34) & "," & _
+            TimeStep.CommandText = "INSERT INTO TimeStep (Species,VersionNumber,TimeStepID,TimeStepName,TimeStepTitle) " &
+               "VALUES(" & Chr(34) & TransferDataSet.Tables("TimeStep").Rows(RecNum)(0) & Chr(34) & "," &
+                TransferDataSet.Tables("TimeStep").Rows(RecNum)(1) & "," &
+                TransferDataSet.Tables("TimeStep").Rows(RecNum)(2) & "," &
+                Chr(34) & TransferDataSet.Tables("TimeStep").Rows(RecNum)(3) & Chr(34) & "," &
                 Chr(34) & TransferDataSet.Tables("TimeStep").Rows(RecNum)(4) & Chr(34) & ")"
 
             TimeStep.ExecuteNonQuery()
