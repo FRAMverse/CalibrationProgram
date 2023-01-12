@@ -36,9 +36,7 @@
             For TStep = 1 To NumSteps
 
                 Print(16, Fish & "," & TStep & "," & AnnualCatch(Fish, TStep) & "," & TrueCatch(Fish, TStep) & vbCrLf)
-                If Fish = 46 And TStep = 2 Then
-                    Fish = 46
-                End If
+
                 If Firstpass = True Then
                     CatchFlag(Fish, TStep) = 0
                 End If
@@ -46,6 +44,10 @@
                 If NoExpansions = True Then
                     CatchFlag(Fish, TStep) = 0
                 End If
+
+                'If AnnualCatch(Fish, TStep) > 0 And TrueCatch(Fish, TStep = 0) Then
+                '    MsgBox("Catch in Fishery " & Fish & " and TStep " & TStep & " is zero. If you want to have BPERs, please enter a small, nominal catch.")
+                'End If
 
                 Select Case CatchFlag(Fish, TStep) 'located in cal file to the right of base period fishery catches or in BasePeriodCatch table of Calibration Support db
 
@@ -152,6 +154,10 @@
                 End Select
 
                 RecAdjFactor(Fish, TStep) = TrueCatch(Fish, TStep) / AnnualCatch(Fish, TStep)
+                '****AHB 1/11/23 to alert user that a fishery/time step has zero catch, but CWTs are present
+                If RecAdjFactor(Fish, TStep) = 0 And AnnualCatch(Fish, TStep) <> 0 Then
+                    MsgBox("Catch in Fishery " & Fish & " and TStep " & TStep & " is zero. If you want to have BPERs, please enter a small, nominal catch in the BasePeriodCatch table.")
+                End If
             Next TStep
         Next Fish
         FileClose(16)

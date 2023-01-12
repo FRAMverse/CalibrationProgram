@@ -29,7 +29,7 @@ Module ImputeRecov
         'Type 2 flag reassigns or combines CWTs to new time step or fishery based on records in ImputeRecoveries table'Type'= original concept
         'Type 3 zero out fishery and time step
         'Type 9 applies exploitation rates from old base period (processed in ImputeOldBPERs(), not here)
-       
+
         If OOBStatus = 1 Or Firstpass = True Then
             BaseType = 0
         Else
@@ -42,10 +42,11 @@ Module ImputeRecov
             Dim newlist2 As New List(Of CWTData)
             Dim imputerecoveries As CWTData
             For Each ImputeItem In ImputeList
-                If BaseType = ImputeItem.cBaseType Then
+                If BaseType = ImputeItem.cBaseType Then '***** AHB check this line 01/11/23
                     'find all the records that meet criteria set in findRecord
                     sublist = CWTList.FindAll(AddressOf findRecord)
                     For Each RecordCWT In sublist
+
                         imputerecoveries.cCatch = Math.Round(RecordCWT.cCatch / 1000, 4)
                         imputerecoveries.cFish = ImputeItem.cRecipientFish
                         imputerecoveries.cBY = RecordCWT.cBY
@@ -119,39 +120,40 @@ Module ImputeRecov
         'zero out CWTs to be replaced then start the surrogate process that also allows for adding fisheries and time steps
         For Each ImputeItem In ImputeList
             If ImputeItem.cBaseType = 2 Or ImputeItem.cBaseType = 3 Then
+
                 IFish = ImputeItem.cRecipientFish
-                ITStep = ImputeItem.cRecipientTStep
-                SFish = ImputeItem.cSurrogateFish
-                STStep = ImputeItem.cSurrogateTStep
-                For STk = 1 To NumStk
-                    For Age = 2 To MaxAge
-                        CWTAll(STk, Age, IFish, ITStep) = 0
-                        If ImputeItem.cBaseType = 2 Then
-                            CWTAll(STk, Age, IFish, ITStep) += Math.Round(CWTAll(STk, Age, SFish, STStep) / 1000, 4, MidpointRounding.AwayFromZero)
-                            If STk = 1 And IFish = 42 And ITStep = 1 Then
-                                ITStep = 1
+                    ITStep = ImputeItem.cRecipientTStep
+                    SFish = ImputeItem.cSurrogateFish
+                    STStep = ImputeItem.cSurrogateTStep
+                    For STk = 1 To NumStk
+                        For Age = 2 To MaxAge
+                            CWTAll(STk, Age, IFish, ITStep) = 0
+                            If ImputeItem.cBaseType = 2 Then
+                                CWTAll(STk, Age, IFish, ITStep) += Math.Round(CWTAll(STk, Age, SFish, STStep) / 1000, 4, MidpointRounding.AwayFromZero)
+                                If STk = 1 And IFish = 42 And ITStep = 1 Then
+                                    ITStep = 1
+                                End If
                             End If
-                        End If
+                        Next
                     Next
-                Next
-            End If
+                End If
         Next
 
         'For debugging purposes, recompute FishTSCatchNew and output CWTAll where > 0
         ReDim FishTSCatchNew(NumFish, NumSteps)
-        For STk = 1 To NumStk
-            For Age = 2 To MaxAge
-                For Fish = 1 To NumFish
-                    For TStep = 1 To NumSteps
-                        If CWTAll(STk, Age, Fish, TStep) > 0 Then
-                            Print(15, STk & "," & Age & "," & Fish & "," & TStep & "," & CWTAll(STk, Age, Fish, TStep) & vbCrLf)
-                        End If
-                    Next
-                Next
-            Next
-        Next STk
+        'For STk = 1 To NumStk
+        '    For Age = 2 To MaxAge
+        '        For Fish = 1 To NumFish
+        '            For TStep = 1 To NumSteps
+        '                If CWTAll(STk, Age, Fish, TStep) > 0 Then
+        '                    Print(15, STk & "," & Age & "," & Fish & "," & TStep & "," & CWTAll(STk, Age, Fish, TStep) & vbCrLf)
+        '                End If
+        '            Next
+        '        Next
+        '    Next
+        'Next STk
 
-        FileClose(15)
+        ' FileClose(15)
     End Sub
     '########## Begin JC Update; 9/25/2015 ##########
     'subroutine to compute CWTs for fisheries using old BPERs as surrogates after cohort sizes are available or change with each iteration
@@ -237,6 +239,10 @@ Module ImputeRecov
         For Fish = 1 To NumFish
             If BPERFisheries(Fish) = 1 Then
                 For TStep = 1 To NumSteps
+
+                    'If TrueCatch(Fish, TStep) = 0 Then
+                    '    MsgBox("Catch in Fishery " & Fish & " and TStep " & TStep & " is zero. If you want to have BPERs, please enter a small, nominal catch.")
+                    'End If
                     Select Case CatchFlag(Fish, TStep) 'located in cal file to the right of base period fishery catches or in BasePeriodCatch table of Calibration Support db
 
                         ' ADJUST MODEL CATCH TO ESTIMATE CATCH
@@ -319,6 +325,9 @@ Module ImputeRecov
         Next
 
 
+
+
+
         'ADD CATCH
         'COMPUTE TOTAL CATCH IN EACH FISHERY
         For Fish = 1 To NumFish
@@ -358,12 +367,11 @@ Module ImputeRecov
 
             End If
         Next Fish
+
         Print(3, "Stock" & "," & "Age" & "," & "Fish" & "," & "TStep" & "," & "Catch" & vbCrLf)
         For TStep = 1 To NumSteps
             For Fish = 1 To NumFish - 1
-                If Fish = 4 And TStep = 3 Then
-                    TStep = 3
-                End If
+
                 For STk = MinStk To NumStk
                     For Age = 2 To MaxAge
                         If TotExpCWTAll(STk, Age, Fish, TStep) > 0 Then
@@ -374,8 +382,9 @@ Module ImputeRecov
             Next Fish
         Next TStep
         FileClose(3)
+        FileClose(15)
 
-        
+
 
     End Sub '########## End JC Update; 9/25/2015 ##########
 
@@ -397,4 +406,6 @@ Module ImputeRecov
         End If
 
     End Function
+
+
 End Module

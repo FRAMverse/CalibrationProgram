@@ -326,3 +326,7 @@ C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\Debug\MainCali
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\Release\MainCalibration.exe
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\Release\MainCalibration.pdb
 C:\Data\Calibration\Programs\MainCalibrationProgramMay2020GIT\obj\Release\MainCalibration.xml
+C:\Data\MainCalibrationProgramMay2020GIT\obj\Debug\MainCalibration.vbproj.ResolveComReference.cache
+C:\Data\MainCalibrationProgramMay2020GIT\obj\Debug\MainCalibration.exe
+C:\Data\MainCalibrationProgramMay2020GIT\obj\Debug\MainCalibration.xml
+C:\Data\MainCalibrationProgramMay2020GIT\obj\Debug\MainCalibration.pdb
