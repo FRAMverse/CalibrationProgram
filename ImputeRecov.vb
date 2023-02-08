@@ -42,7 +42,7 @@ Module ImputeRecov
             Dim newlist2 As New List(Of CWTData)
             Dim imputerecoveries As CWTData
             For Each ImputeItem In ImputeList
-                If BaseType = ImputeItem.cBaseType Then '***** AHB check this line 01/11/23
+                If BaseType = ImputeItem.cBaseType Then
                     'find all the records that meet criteria set in findRecord
                     sublist = CWTList.FindAll(AddressOf findRecord)
                     For Each RecordCWT In sublist
